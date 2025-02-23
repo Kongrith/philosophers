@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 01:33:09 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/02/24 02:35:37 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 # include <pthread.h> // mutex: init destroy lock unlock, threadL create join detach
 # include <sys/time.h> // gettimeofday
 # include <limits.h>	  // INT_MAX
-# include <pthread.h>
 
 typedef struct s_var t_var;
 typedef struct s_philo
 {
 	int id;
+	int first_fork;
+	int second_fork;
+	long last_meal_time;
 	t_var *var;
 	pthread_t thread;
 } t_philo;
@@ -40,6 +42,7 @@ typedef struct s_var
 	int is_dead;
 	int dead_index;
 	time_t start_time;
+	time_t time_of_death;
 	t_philo *philo;
 	pthread_mutex_t *forks;
 } t_var;

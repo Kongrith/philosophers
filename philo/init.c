@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 01:32:30 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/02/24 03:41:09 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void init_philos(t_var *var)
 	while (i < var->num_of_philo)
 	{
 		var->philo[i].id = i + 1;
+		var->philo[i].first_fork = i;
+		var->philo[i].second_fork = (i + i) % var->num_of_philo;
 		var->philo[i].var = var;
 		i++;
 	}
