@@ -25,8 +25,11 @@ typedef struct s_var
 	long time_to_eat;
 	long time_to_sleep;
 	int limit_meals;
+	int is_dead;
+	int dead_index;
 	time_t start_time;
 	t_philo *philo;
+	pthread_mutex_t *forks;
 } t_var;
 
 

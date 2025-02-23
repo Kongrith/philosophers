@@ -69,12 +69,4 @@ void parse_input(t_var *var, int argc, char *argv[])
 		var->limit_meals = ft_atoi(argv[5]);
 	// if (table->time_to_die < 6000 || table->time_to_eat < 6000 || table->time_to_sleep < 6000)
 	// 	error_exit("asd");
-	// if (av[5])
-	// 	table->nbr_limit_meals = ft_atoi(av[5]);
-	// else
-	// 	table->nbr_limit_meals = -1;
-
-	// printf("%ld\n", var->time_to_die);
-	// printf("%ld\n", var->time_to_eat);
-	// printf("%ld\n", var->time_to_sleep);
 }

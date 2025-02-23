@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 		parse_input(&var, argc, argv);
 		initialization(&var);
 		start_simulation(&var);
-		// clean
+		// clean();
 	}
 	else
 	{
