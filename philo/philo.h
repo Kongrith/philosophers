@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 02:35:37 by toon             ###   ########.fr       */
+/*   Updated: 2025/02/24 12:22:21 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 # include <sys/time.h> // gettimeofday
 # include <limits.h>	  // INT_MAX
 
+# define DEBUG_MODE false
+
 typedef struct s_var t_var;
 typedef struct s_philo
 {
 	int id;
 	int first_fork;
 	int second_fork;
+	int must_eat;
 	long last_meal_time;
 	t_var *var;
 	pthread_t thread;
@@ -47,6 +50,15 @@ typedef struct s_var
 	pthread_mutex_t *forks;
 } t_var;
 
+typedef enum
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+} t_philo_status;
 
 // init.c
 void initialization(t_var *var);
@@ -54,11 +66,16 @@ void initialization(t_var *var);
 // parse input
 void parse_input(t_var *var, int argc, char *argv[]);
 
-// sim.c
+// thread_handler.c
 int start_simulation(t_var *var);
+
+// sim.c
+void lone_philo(t_philo *philo);
+void even_odd_approach(t_philo *philo);
 
 // utils.c
 void error_exit(char *str);
 time_t get_time_in_ms();
+void write_status(t_philo_status status, t_philo *philo, bool debug);
 
 #endif
