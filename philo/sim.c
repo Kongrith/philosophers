@@ -44,7 +44,13 @@ void even_odd_approach(t_philo *philo)
 		pthread_mutex_lock(&philo->var->forks[philo->second_fork]);
 		write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
 		write_status(EATING, philo, DEBUG_MODE);
-
+		usleep(philo->var->time_to_eat);
+		philo->last_meal_time = get_time_in_ms();
+		pthread_mutex_unlock(&philo->var->forks[philo->first_fork]);
+		pthread_mutex_unlock(&philo->var->forks[philo->second_fork]);
+		write_status(SLEEPING, philo, DEBUG_MODE);
+		usleep(philo->var->time_to_sleep);
+		write_status(THINKING, philo, DEBUG_MODE);
 		philo->must_eat--;
 	}
 }

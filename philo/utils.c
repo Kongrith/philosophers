@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:35 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 12:30:08 by toon             ###   ########.fr       */
+/*   Updated: 2025/02/24 14:54:57 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,18 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 
 	elapsed_time = get_time_in_ms() - philo->var->start_time;
 	if (debug)
-		write_status_debug(status, philo, elapsed_time);
+	{
+		// write_status_debug(status, philo, elapsed_time);
+	}
 	else
 	{
 		if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
 			printf("%.6ld %d has taken a fork\n", elapsed_time, philo->id);
-		else if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
+		else if (status == EATING)
 			printf("%.6ld %d is eating\n", elapsed_time, philo->id);
+		else if (status == SLEEPING)
+			printf("%.6ld %d is sleeping\n", elapsed_time, philo->id);
+		else if (status == THINKING)
+			printf("%.6ld %d is thinking\n", elapsed_time, philo->id);
 	}
 }

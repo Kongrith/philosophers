@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 12:35:57 by toon             ###   ########.fr       */
+/*   Updated: 2025/02/24 14:40:02 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void init_mutexes(t_var *var)
 	while (i < var->num_of_philo)
 	{
 		if (pthread_mutex_init(&var->forks[i], NULL))
-			error_exit("Can not init mutext");
+			error_exit("Can not init mutex");
 		i++;
 	}
 }

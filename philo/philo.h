@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 12:22:21 by toon             ###   ########.fr       */
+/*   Updated: 2025/02/24 14:54:09 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/time.h> // gettimeofday
 # include <limits.h>	  // INT_MAX
 
-# define DEBUG_MODE false
+# define DEBUG_MODE true
 
 typedef struct s_var t_var;
 typedef struct s_philo
@@ -44,6 +44,7 @@ typedef struct s_var
 	int limit_meals;
 	int is_dead;
 	int dead_index;
+	pthread_t monitor;
 	time_t start_time;
 	time_t time_of_death;
 	t_philo *philo;
@@ -72,6 +73,9 @@ int start_simulation(t_var *var);
 // sim.c
 void lone_philo(t_philo *philo);
 void even_odd_approach(t_philo *philo);
+
+// monitor.c
+void *monitor(void *data);
 
 // utils.c
 void error_exit(char *str);

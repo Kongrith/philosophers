@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:18 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 12:34:02 by toon             ###   ########.fr       */
+/*   Updated: 2025/02/24 14:38:03 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void *philo_routine(void *data)
 	else
 	{
 		if (philo->id % 2 == 0)
-			usleep(1000000);
+			usleep(200);
 			// printf("id: %d sleep 200 usec\n", philo->id);
 		even_odd_approach(philo);
 	}
@@ -41,6 +41,8 @@ static void create_mutexes(t_var *var)
 			error_exit("Failed to created thread");
 		i++;
 	}
+	if (pthread_create(&var->monitor, NULL, &monitor, &var) != 0)
+		error_exit("Failed to created thread");
 }
 
 static void join_mutexes(t_var *var)
