@@ -47,16 +47,28 @@
 
 void *monitor(void *data)
 {
+	// t_philo *philo;
+
+	// philo = (t_philo *)data;
+
 	int i;
 	t_var *var;
-	var = (t_var *)data;
 
+	var = (t_var *)data;
+	time_t spent;
+
+	// printf("%d\n", var->num_of_philo);
 	while (!var->is_dead)
 	{
 		i = 0;
+		// printf("%d\n", var->num_of_philo);
 		while (i < var->num_of_philo)
 		{
-			printf("i:%d\n", i);
+			// printf("##\n");
+			spent = get_time_in_ms() - var->philo->last_meal_time;
+			printf("%ld\n", spent);
+			// printf("i:%d\n", i);
+
 			i++;
 		}
 		// printf("i:%d\n", i);

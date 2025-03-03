@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:51 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 01:32:53 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/03/03 10:21:14 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 We need data structs:
 	For each philo, containing:
 		Philo ID, a thread ✅
-		Fork pointers
-		Mutex
+		Fork pointers ✅
+		Mutex ✅
 		Whatever relevant to rules
 
 	For each fork
@@ -33,9 +33,9 @@ We need data structs:
 
 Write a skeleton in main()
 	Parse inputs
-		Convert each "time_to" inputs to milliseconds
-		Handle input errors
-		Handle the optional input of the total meals a philo must eat
+		Convert each "time_to" inputs to milliseconds ✅
+		Handle input errors ✅
+		Handle the optional input of the total meals a philo must eat ✅
 
 	Initialize data
 		malloc an array of philos

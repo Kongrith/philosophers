@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:38 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/03 10:19:01 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/03 10:39:31 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ void parse_input(t_var *var, int argc, char *argv[])
 		var->limit_meals = -1;
 	else
 		var->limit_meals = ft_atoi(argv[5]);
-	if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || \
-	(var->time_to_eat) <= 0 || (var->time_to_sleep) || (var->limit_meals <= 0))
-		error_exit("Wrong input");
+	if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || (var->time_to_eat) <= 0 || (var->time_to_sleep <= 0))
+		error_exit("Value is less than zero");
 
 	// if (table->time_to_die < 6000 || table->time_to_eat < 6000 || table->time_to_sleep < 6000)
 	// 	error_exit("asd");

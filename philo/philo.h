@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 14:54:09 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/03 10:52:43 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/time.h> // gettimeofday
 # include <limits.h>	  // INT_MAX
 
-# define DEBUG_MODE true
+# define DEBUG_MODE false
 
 typedef struct s_var t_var;
 typedef struct s_philo

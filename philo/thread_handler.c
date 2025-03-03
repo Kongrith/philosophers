@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:18 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 14:38:03 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/03 11:13:27 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void create_mutexes(t_var *var)
 			error_exit("Failed to created thread");
 		i++;
 	}
-	if (pthread_create(&var->monitor, NULL, &monitor, &var) != 0)
+	if (pthread_create(&var->monitor, NULL, &monitor, var) != 0)
 		error_exit("Failed to created thread");
 }
 
@@ -56,11 +56,13 @@ static void join_mutexes(t_var *var)
 			error_exit("Failed to join thread");
 		i++;
 	}
+	if (pthread_join(var->monitor, NULL) != 0)
+		error_exit("Failed to join thread");
 }
 
 int start_simulation(t_var *var)
 {
-	var->start_time = get_time_in_ms();
+	var->start_time = get_time_in_ms();		// start time of simulation
 	create_mutexes(var);
 	join_mutexes(var);
 	if (var->is_dead == 1)
