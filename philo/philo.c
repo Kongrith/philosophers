@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:51 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/03 10:21:14 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/03 11:27:42 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ Write a skeleton in main()
 	Clean up and free things to avoid memory leaks
 
 ./philo 1 800 200 200
+
+./philo 4 410 200 200		one philosopher should die
 */
 int main(int argc, char *argv[])
 {

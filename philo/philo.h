@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/03 10:52:43 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/03 11:56:46 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@
 # include <sys/time.h> // gettimeofday
 # include <limits.h>	  // INT_MAX
 
-# define DEBUG_MODE false
+# define DEBUG_MODE true
 
 typedef struct s_var t_var;
+
+typedef struct s_monitor
+{
+	pthread_t thread;
+} t_monitor;
+
 typedef struct s_philo
 {
 	int id;
@@ -44,10 +50,10 @@ typedef struct s_var
 	int limit_meals;
 	int is_dead;
 	int dead_index;
-	pthread_t monitor;
 	time_t start_time;
 	time_t time_of_death;
 	t_philo *philo;
+	t_monitor *monitor;
 	pthread_mutex_t *forks;
 } t_var;
 

@@ -47,31 +47,35 @@
 
 void *monitor(void *data)
 {
-	// t_philo *philo;
-
-	// philo = (t_philo *)data;
-
 	int i;
 	t_var *var;
 
 	var = (t_var *)data;
-	time_t spent;
-
-	// printf("%d\n", var->num_of_philo);
+	time_t spent_time;
+	printf("time to die:%ld\n", var->time_to_die);
 	while (!var->is_dead)
 	{
 		i = 0;
-		// printf("%d\n", var->num_of_philo);
-		while (i < var->num_of_philo)
+		// printf("%ld\n", get_time_in_ms());
+		// printf("%ld\n", var->philo->last_meal_time);
+		while ((i < var->num_of_philo) && (!var->is_dead))
 		{
-			// printf("##\n");
-			spent = get_time_in_ms() - var->philo->last_meal_time;
-			printf("%ld\n", spent);
-			// printf("i:%d\n", i);
-
+			spent_time = get_time_in_ms() - var->philo->last_meal_time;
+			printf("%ld %ld\n", spent_time, var->time_to_die);
+			if (spent_time >= var->time_to_die)
+			{
+				printf("Game Over !!\n");
+				var->time_of_death = get_time_in_ms() - var->start_time;
+				var->dead_index = i;
+				var->is_dead = 1;
+				// printf("%d", i);
+				// break;
+			}
 			i++;
 		}
+
 		// printf("i:%d\n", i);
 	}
+	printf("IsDead: %d\n", var->is_dead);
 	return (NULL);
 }

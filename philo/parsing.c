@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:38 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/03 10:39:31 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/03 13:24:08 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ void parse_input(t_var *var, int argc, char *argv[])
 		var->limit_meals = -1;
 	else
 		var->limit_meals = ft_atoi(argv[5]);
+
+	// printf("Philo: %d\n", var->num_of_philo);
+	// printf("Time2Die: %ld\n", var->time_to_die);
+	// printf("Time2Eat: %ld\n", var->time_to_eat);
+	// printf("Time2Sleep: %ld\n", var->time_to_sleep);
 	if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || (var->time_to_eat) <= 0 || (var->time_to_sleep <= 0))
 		error_exit("Value is less than zero");
 
