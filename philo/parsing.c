@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khkomasa <khkomasa@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:38 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/02/24 01:32:42 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/03/03 10:19:01 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,23 @@ static inline bool is_space(char c)
 */
 static const char *valid_input(const char *str)
 {
-	int len; // len of str
+	int len;
 	const char *number;
 
 	len = 0;
-	// skip the spaces
 	while (is_space(*str))
 		++str;
 	if (*str == '+')
 		++str;
 	else if (*str == '-')
-		error_exit("value");
+		error_exit("Input number should be positive number");
 	if (!is_digit(*str))
-		error_exit("digt");
+		error_exit("Input number should be digit");
 	number = str;
 	while (is_digit(*str++))
 		++len;
 	if (len > 10)
-		error_exit("int max");
+		error_exit("Input value exceeds maximum int");
 	return (number);
 }
 
@@ -65,7 +64,7 @@ static long ft_atoi(const char *str)
 	while (is_digit(*str))
 		num = (num * 10) + (*str++ - 48);
 	if (num > INT_MAX)
-		error_exit("max");
+		error_exit("Input value exceeds maximum int");
 	return (num);
 }
 
@@ -79,6 +78,10 @@ void parse_input(t_var *var, int argc, char *argv[])
 		var->limit_meals = -1;
 	else
 		var->limit_meals = ft_atoi(argv[5]);
+	if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || \
+	(var->time_to_eat) <= 0 || (var->time_to_sleep) || (var->limit_meals <= 0))
+		error_exit("Wrong input");
+
 	// if (table->time_to_die < 6000 || table->time_to_eat < 6000 || table->time_to_sleep < 6000)
 	// 	error_exit("asd");
 }
