@@ -6,11 +6,38 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:18 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/05 18:42:43 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/06 14:29:48 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void *monitor_routine(void *data)
+{
+	int i;
+	t_var *var;
+	time_t spent_time;
+
+	var = (t_var *)data;
+	wait_all_threads(var);
+	usleep(var->time_to_die * 1000 * 0.5);
+	while (!var->is_dead)
+	{
+		i = 0;
+		while ((i < var->num_of_philo) && (!var->is_dead))
+		{
+			spent_time = timestamp_in_ms() - var->philo->last_meal_time;
+			if (spent_time >= var->time_to_die)
+			{
+				var->time_of_death = timestamp_in_ms() - var->start_time;
+				var->dead_index = i + 1;
+				var->is_dead = 1;
+			}
+			i++;
+		}
+	}
+	return (NULL);
+}
 
 static void *philo_routine(void *data)
 {
@@ -20,12 +47,7 @@ static void *philo_routine(void *data)
 	if (philo->var->num_of_philo == 1)
 		lone_philo(philo);
 	else
-	{
-		// if (philo->id % 2 == 0)
-		// 	usleep(200);
-			// printf("id: %d sleep 200 usec\n", philo->id);
 		even_odd_approach(philo);
-	}
 	return (NULL);
 }
 
@@ -34,15 +56,13 @@ static void create_threads(t_var *var)
 	int i;
 
 	i = 0;
-	// var->start_time = timestamp_in_ms();
 	while (i < var->num_of_philo)
 	{
-		// var->philo[i].last_meal_time = timestamp_in_ms();
 		if (pthread_create(&var->philo[i].thread, NULL, &philo_routine, &var->philo[i]) != 0)
 			error_exit("Failed to created thread");
 		i++;
 	}
-	if (pthread_create(&var->monitor->thread, NULL, &monitor, var) != 0)
+	if (pthread_create(&var->monitor->thread, NULL, &monitor_routine, var) != 0)
 		error_exit("Failed to created thread");
 }
 

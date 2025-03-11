@@ -49,25 +49,7 @@ void *monitor(void *data)
 {
 	int i;
 	t_var *var;
-
 	var = (t_var *)data;
-	time_t spent_time;
-	wait_all_threads(var);
-	usleep(var->time_to_die * 1000 * 0.5);
-	while (!var->is_dead)
-	{
-		i = 0;
-		while ((i < var->num_of_philo) && (!var->is_dead))
-		{
-			spent_time = timestamp_in_ms() - var->philo->last_meal_time;
-			if (spent_time >= var->time_to_die)
-			{
-				var->time_of_death = timestamp_in_ms() - var->start_time;
-				var->dead_index = i + 1;
-				var->is_dead = 1;
-			}
-			i++;
-		}
-	}
-	return (NULL);
+
+	i = 0;
 }

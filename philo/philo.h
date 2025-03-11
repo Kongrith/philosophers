@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/05 18:37:18 by toon             ###   ########.fr       */
+/*   Updated: 2025/03/06 14:30:10 by toon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/time.h> // gettimeofday
 # include <limits.h>	  // INT_MAX
 
-# define DEBUG_MODE false
+# define DEBUG_MODE true
 
 typedef struct s_var t_var;
 
@@ -77,12 +77,12 @@ void parse_input(t_var *var, int argc, char *argv[]);
 // thread_handler.c
 int start_simulation(t_var *var);
 
-// sim.c
+// simulation.c
 void lone_philo(t_philo *philo);
 void even_odd_approach(t_philo *philo);
 
 // monitor.c
-void *monitor(void *data);
+// void *monitor(void *data);
 
 // utils.c
 void error_exit(char *str);
