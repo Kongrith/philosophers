@@ -1,7 +1,7 @@
 NAME	= philo
 
-CXX		= cc -pthread
-CFLAGS	= -Wextra -Wall -Werror
+CXX		= cc -pthread 
+CFLAGS	= -Wextra -Wall -Werror 
 
 SRCS	= philo.c init.c parsing.c simulation.c thread_handler.c clean.c utils.c
 OBJS	= ${SRCS:.c=.o}

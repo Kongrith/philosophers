@@ -43,9 +43,11 @@
 
 void wait_all_threads(t_var *var)
 {
-	// printf("ID:%d, Status: %d\n", var->philo->id, var->all_threads_ready);
-	while (!var->all_threads_ready)
-		;
+	// while (!var->all_threads_ready)
+	// 	;
+	pthread_mutex_lock(&var->wait_all_threads);
+	(var->all_threads_ready)++;
+	pthread_mutex_unlock(&var->wait_all_threads);
 }
 
 void lone_philo(t_philo *philo)

@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
 		if (initialization(&var) < 0)
 			return (0);
 		start_simulation(&var);
+		printf("%d\n", var.all_threads_ready);
 		clean(&var, 2);
 	}
 	else

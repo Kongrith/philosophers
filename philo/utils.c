@@ -26,13 +26,13 @@ time_t timestamp_in_ms()
 	return msec;
 }
 
-// int	ft_usleep(useconds_t time)
+// int precise_usleep(long usec)
 // {
-// 	u_int64_t	start;
+// 	long start;
 
-// 	start = get_time();
-// 	while ((get_time() - start) < time)
-// 		usleep(time / 10);
+// 	start = timestamp_in_ms();
+// 	while ((timestamp_in_ms() - start) < time)
+// 		usleep(usec / 10);
 // 	return (0);
 // }
 

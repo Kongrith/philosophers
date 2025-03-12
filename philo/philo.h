@@ -21,7 +21,7 @@
 #include <sys/time.h> // gettimeofday
 #include <limits.h>	  // INT_MAX
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false
 
 typedef struct s_var t_var;
 
@@ -56,6 +56,7 @@ typedef struct s_var
 	t_philo *philo;
 	t_monitor *monitor;
 	pthread_mutex_t *forks;
+	pthread_mutex_t wait_all_threads;
 } t_var;
 
 typedef enum
@@ -76,20 +77,16 @@ int parse_input(t_var *var, int argc, char *argv[]);
 
 // thread_handler.c
 int start_simulation(t_var *var);
+void wait_all_threads(t_var *var);
 
 // simulation.c
 void lone_philo(t_philo *philo);
 void even_odd_approach(t_philo *philo);
 
-// monitor.c
-// void *monitor(void *data);
-
 // utils.c
 int error_exit(int err_code, char *str);
 time_t timestamp_in_ms();
 void write_status(t_philo_status status, t_philo *philo, bool debug);
-
-void wait_all_threads(t_var *var);
 
 // clean.c
 void clean(t_var *var, int level);

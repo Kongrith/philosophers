@@ -87,6 +87,7 @@ int start_simulation(t_var *var)
 	create_threads(var);
 	var->start_timestamp = timestamp_in_ms();
 	var->all_threads_ready = 1;
+	pthread_mutex_unlock(&var->wait_all_threads);
 	join_threads(var);
 	if (var->is_dead)
 		write_status(DIED, var->philo, DEBUG_MODE);

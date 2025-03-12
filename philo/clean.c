@@ -63,10 +63,11 @@ static void destroy_mutex(t_var *var)
     i = 0;
     while (i < var->num_of_philo)
     {
-        pthread_mutex_unlock(&var->forks[i]);
+        // pthread_mutex_unlock(&var->forks[i]);
         pthread_mutex_destroy(&var->forks[i]);
         i++;
     }
+    pthread_mutex_destroy(&var->wait_all_threads);
 }
 
 void clean(t_var *var, int level)

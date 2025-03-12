@@ -23,6 +23,8 @@ static int init_mutexes(t_var *var)
 			return (error_exit(-1, "Can not initial mutex"));
 		i++;
 	}
+	if (pthread_mutex_init(&var->wait_all_threads, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
 	return (0);
 }
 
@@ -50,6 +52,8 @@ int initialization(t_var *var)
 	var->philo = malloc(sizeof(t_philo) * var->num_of_philo);
 	var->monitor = malloc(sizeof(t_monitor));
 	var->forks = malloc(sizeof(pthread_mutex_t) * var->num_of_philo);
+	// var->wait_all_threads pthread_mutex_t wait_all_threads;
+
 	if (var->philo == NULL || var->monitor == NULL || var->forks == NULL)
 	{
 		clean(var, 1);
@@ -58,5 +62,8 @@ int initialization(t_var *var)
 	init_philos(var);
 	if (init_mutexes(var) < 0)
 		return (-1);
+
+	pthread_mutex_lock(&var->wait_all_threads);
+
 	return (0);
 }
