@@ -38,9 +38,9 @@ int check_input(const char *str)
 	if (str[i] == '+')
 		i++;
 	else if (str[i] == '-')
-		return (-1);
-	if (!is_digit(str[i]))
 		return (-2);
+	if (!is_digit(str[i]))
+		return (-3);
 	return (i);
 }
 
@@ -76,7 +76,7 @@ long ft_atoi(const char *str)
 		i++;
 	}
 	if (num < INT_MIN || num > INT_MAX)
-		return (-3);
+		return (-4);
 	return (num);
 }
 
@@ -86,15 +86,17 @@ int parse_input(t_var *var, int argc, char *argv[])
 	var->time_to_die = ft_atoi(argv[2]);
 	var->time_to_eat = ft_atoi(argv[3]);
 	var->time_to_sleep = ft_atoi(argv[4]);
-	printf("Num Philo: %d\n", var->num_of_philo);
-	printf("Time2Die: %ld\n", var->time_to_die);
-	printf("Time2Eat: %ld\n", var->time_to_eat);
-	printf("Time2Sleep: %ld\n", var->time_to_sleep);
+	if (var->num_of_philo <= 0)
+		return (error_exit(var->num_of_philo, "number of philo"));
+	if (var->time_to_die <= 0)
+		return (error_exit(var->time_to_die, "time_to_die"));
+	if (var->time_to_eat <= 0)
+		return (error_exit(var->time_to_eat, "time_to_eat"));
+	if (var->time_to_sleep <= 0)
+		return (error_exit(var->time_to_sleep, "time_to_sleep"));
 	if (argc == 5)
 		var->required_meals = -1;
 	else
 		var->required_meals = ft_atoi(argv[5]);
-	// if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || (var->time_to_eat) <= 0 || (var->time_to_sleep <= 0))
-	// 	error_exit("Value is less than zero");
 	return (0);
 }

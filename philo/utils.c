@@ -51,14 +51,19 @@ void precise_usleep(long usec, t_philo *philo)
 	}
 }
 
-int error_exit(char *str)
+int error_exit(int err_code, char *str)
 {
-	printf("%s\n", str);
-	// if (err_code == -1)
-	// 	printf("Error! %s is negative value\n", str);
-	// else if (err_code == -2)
-	// 	printf("Error! %s is negative value\n", str);
-	return (0);
+	if (err_code == 0)
+		printf("Error: '%s' shoud not be zero value\n", str);
+	else if (err_code == -1)
+		printf("Error: %s\n", str);
+	else if (err_code == -2)
+		printf("Error: '%s' shoud not be negative value\n", str);
+	else if (err_code == -3)
+		printf("Error: '%s' shoud be number\n", str);
+	else if (err_code == -4)
+		printf("Error: '%s' exceed MAX INTEGER\n", str);
+	return (-1);
 }
 
 void write_status(t_philo_status status, t_philo *philo, bool debug)

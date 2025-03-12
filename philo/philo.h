@@ -21,7 +21,7 @@
 #include <sys/time.h> // gettimeofday
 #include <limits.h>	  // INT_MAX
 
-#define DEBUG_MODE false
+#define DEBUG_MODE true
 
 typedef struct s_var t_var;
 
@@ -85,7 +85,7 @@ void even_odd_approach(t_philo *philo);
 // void *monitor(void *data);
 
 // utils.c
-int error_exit(char *str);
+int error_exit(int err_code, char *str);
 time_t timestamp_in_ms();
 void write_status(t_philo_status status, t_philo *philo, bool debug);
 

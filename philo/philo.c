@@ -22,14 +22,15 @@ int main(int argc, char *argv[])
 
 	if (argc == 5 || argc == 6)
 	{
-		parse_input(&var, argc, argv);
-		initialization(&var);
+		if (parse_input(&var, argc, argv) < 0)
+			return (0);
+		if (initialization(&var) < 0)
+			return (0);
+		printf("I am here\n");
 		start_simulation(&var);
 		// clean();
 	}
 	else
-	{
-		// error_exit("Invalid input agruments");
-	}
+		error_exit(-1, "Invalid Input Agruments");
 	return (0);
 }

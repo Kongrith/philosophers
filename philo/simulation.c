@@ -59,11 +59,11 @@ static void create_threads(t_var *var)
 	while (i < var->num_of_philo)
 	{
 		if (pthread_create(&var->philo[i].thread, NULL, &philo_routine, &var->philo[i]) != 0)
-			error_exit("Failed to created thread");
+			error_exit(-1, "Failed to created thread");
 		i++;
 	}
 	if (pthread_create(&var->monitor->thread, NULL, &monitor_routine, var) != 0)
-		error_exit("Failed to created thread");
+		error_exit(-1, "Failed to created thread");
 }
 
 static void join_mutexes(t_var *var)
@@ -75,11 +75,11 @@ static void join_mutexes(t_var *var)
 	{
 
 		if (pthread_join(var->philo[i].thread, NULL) != 0)
-			error_exit("Failed to join thread");
+			error_exit(-1, "Failed to join thread");
 		i++;
 	}
 	if (pthread_join(var->monitor->thread, NULL) != 0)
-		error_exit("Failed to join thread");
+		error_exit(-1, "Failed to join thread");
 }
 
 int start_simulation(t_var *var)

@@ -20,7 +20,7 @@ static void init_mutexes(t_var *var)
 	while (i < var->num_of_philo)
 	{
 		if (pthread_mutex_init(&var->forks[i], NULL))
-			error_exit("Can not init mutex");
+			error_exit(-1, "Can not init mutex");
 		i++;
 	}
 }
