@@ -26,10 +26,10 @@ static void *monitor_routine(void *data)
 		i = 0;
 		while ((i < var->num_of_philo) && (!var->is_dead))
 		{
-			spent_time = timestamp_in_ms() - var->philo->last_meal_time;
+			spent_time = timestamp_in_ms() - var->philo->last_meal_timestamp;
 			if (spent_time >= var->time_to_die)
 			{
-				var->time_of_death = timestamp_in_ms() - var->start_time;
+				var->death_timestamp = timestamp_in_ms() - var->start_timestamp;
 				var->dead_index = i + 1;
 				var->is_dead = 1;
 			}
@@ -78,19 +78,17 @@ static void join_mutexes(t_var *var)
 			error_exit("Failed to join thread");
 		i++;
 	}
-	if (pthread_join(var->monitor->thread, NULL)!= 0)
+	if (pthread_join(var->monitor->thread, NULL) != 0)
 		error_exit("Failed to join thread");
 }
 
 int start_simulation(t_var *var)
 {
 	create_threads(var);
-	var->start_time = timestamp_in_ms();
+	var->start_timestamp = timestamp_in_ms();
 	var->all_threads_ready = 1;
 	join_mutexes(var);
 	if (var->is_dead)
-	{
-		printf("%.3ld %d died\n", var->time_of_death, var->dead_index);
-	}
+		write_status(DIED, var->philo, DEBUG_MODE);
 	return (0);
 }

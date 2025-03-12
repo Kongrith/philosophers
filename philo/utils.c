@@ -51,27 +51,22 @@ void precise_usleep(long usec, t_philo *philo)
 	}
 }
 
-
-void error_exit(char *str)
+int error_exit(char *str)
 {
 	printf("%s\n", str);
+	// if (err_code == -1)
+	// 	printf("Error! %s is negative value\n", str);
+	// else if (err_code == -2)
+	// 	printf("Error! %s is negative value\n", str);
+	return (0);
 }
-
-// void write_status_debug ()
-// {
-
-// }
 
 void write_status(t_philo_status status, t_philo *philo, bool debug)
 {
 	long elapsed_time;
 
-	elapsed_time = timestamp_in_ms() - philo->var->start_time;
-	if (debug)
-	{
-		// write_status_debug(status, philo, elapsed_time);
-	}
-	else
+	elapsed_time = timestamp_in_ms() - philo->var->start_timestamp;
+	if (!debug)
 	{
 		if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
 			printf("%.3ld %d has taken a fork\n", elapsed_time, philo->id);
@@ -81,5 +76,7 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 			printf("%.3ld %d is sleeping\n", elapsed_time, philo->id);
 		else if (status == THINKING)
 			printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
+		else if (status == DIED)
+			printf("%.3ld %d died\n", philo->var->death_timestamp, philo->var->dead_index);
 	}
 }

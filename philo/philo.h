@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-# define PHILO_H
+#define PHILO_H
 
-# include <stdio.h>	// printf
-# include <stdlib.h> // malloc, free
-# include <unistd.h> // write, usleep
-# include <stdbool.h>
-# include <pthread.h> // mutex: init destroy lock unlock, threadL create join detach
-# include <sys/time.h> // gettimeofday
-# include <limits.h>	  // INT_MAX
+#include <stdio.h>	// printf
+#include <stdlib.h> // malloc, free
+#include <unistd.h> // write, usleep
+#include <stdbool.h>
+#include <pthread.h>  // mutex: init destroy lock unlock, threadL create join detach
+#include <sys/time.h> // gettimeofday
+#include <limits.h>	  // INT_MAX
 
-# define DEBUG_MODE true
+#define DEBUG_MODE false
 
 typedef struct s_var t_var;
 
@@ -35,8 +35,8 @@ typedef struct s_philo
 	int id;
 	int first_fork;
 	int second_fork;
-	int must_eat;
-	long last_meal_time;
+	int remaining_meals;
+	long last_meal_timestamp;
 	t_var *var;
 	pthread_t thread;
 } t_philo;
@@ -47,12 +47,12 @@ typedef struct s_var
 	long time_to_die;
 	long time_to_eat;
 	long time_to_sleep;
-	int limit_meals;
+	int required_meals;
 	int is_dead;
 	int dead_index;
 	int all_threads_ready;
-	time_t start_time;
-	time_t time_of_death;
+	time_t start_timestamp;
+	time_t death_timestamp;
 	t_philo *philo;
 	t_monitor *monitor;
 	pthread_mutex_t *forks;
@@ -72,7 +72,7 @@ typedef enum
 void initialization(t_var *var);
 
 // parse input
-void parse_input(t_var *var, int argc, char *argv[]);
+int parse_input(t_var *var, int argc, char *argv[]);
 
 // thread_handler.c
 int start_simulation(t_var *var);
@@ -85,7 +85,7 @@ void even_odd_approach(t_philo *philo);
 // void *monitor(void *data);
 
 // utils.c
-void error_exit(char *str);
+int error_exit(char *str);
 time_t timestamp_in_ms();
 void write_status(t_philo_status status, t_philo *philo, bool debug);
 

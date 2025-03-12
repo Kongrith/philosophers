@@ -35,7 +35,7 @@ static void init_philos(t_var *var)
 		var->philo[i].id = i + 1;
 		var->philo[i].first_fork = (i + 1) % var->num_of_philo;
 		var->philo[i].second_fork = i;
-		var->philo[i].must_eat = var->limit_meals;
+		var->philo[i].remaining_meals = var->required_meals;
 		var->philo[i].var = var;
 		i++;
 	}

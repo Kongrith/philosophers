@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		error_exit("Invalid input agruments");
+		// error_exit("Invalid input agruments");
 	}
 	return (0);
 }

@@ -21,7 +21,6 @@
 // 	safe_mutex_handle(&philo->second_fork->fork, UNLOCK);
 // }
 
-
 // void thinking(t_philo *philo, bool pre_simulation)
 // {
 // 	long t_eat;
@@ -49,18 +48,17 @@ void wait_all_threads(t_var *var)
 		;
 }
 
-
 void lone_philo(t_philo *philo)
 {
 	wait_all_threads(philo->var);
-	philo->last_meal_time = timestamp_in_ms();
+	philo->last_meal_timestamp = timestamp_in_ms();
 	pthread_mutex_lock(&philo->var->forks[philo->first_fork]);
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
 	while (1)
 	{
-		if (timestamp_in_ms() - philo->last_meal_time > philo->var->time_to_die)
+		if (timestamp_in_ms() - philo->last_meal_timestamp > philo->var->time_to_die)
 		{
-			philo->var->time_of_death = timestamp_in_ms() - philo->var->start_time;
+			philo->var->death_timestamp = timestamp_in_ms() - philo->var->start_timestamp;
 			philo->var->dead_index = philo->id;
 			philo->var->is_dead = 1;
 			pthread_mutex_unlock(&philo->var->forks[philo->first_fork]);
@@ -69,19 +67,18 @@ void lone_philo(t_philo *philo)
 	}
 }
 
-
 void even_odd_approach(t_philo *philo)
 {
 	int count;
 
 	wait_all_threads(philo->var);
-	philo->last_meal_time = timestamp_in_ms();
+	philo->last_meal_timestamp = timestamp_in_ms();
 	if (philo->id % 2)
-		usleep(philo->var->time_to_eat*1000*0.5);
-	if (philo->must_eat == -1)
+		usleep(philo->var->time_to_eat * 1000 * 0.5);
+	if (philo->remaining_meals == -1)
 		count = -1;
 	else
-		count = philo->must_eat;
+		count = philo->remaining_meals;
 	while (count && (!philo->var->is_dead))
 	{
 		pthread_mutex_lock(&philo->var->forks[philo->first_fork]);
@@ -100,7 +97,7 @@ void even_odd_approach(t_philo *philo)
 		}
 		write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
 		write_status(EATING, philo, DEBUG_MODE);
-		philo->last_meal_time = timestamp_in_ms();
+		philo->last_meal_timestamp = timestamp_in_ms();
 		usleep(philo->var->time_to_eat * 1000);
 		pthread_mutex_unlock(&philo->var->forks[philo->first_fork]);
 		pthread_mutex_unlock(&philo->var->forks[philo->second_fork]);

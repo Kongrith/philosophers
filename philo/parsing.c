@@ -12,51 +12,6 @@
 
 #include "philo.h"
 
-/*
-The allowable number: equal or greater than zero
-return:
-	 0 to +Int: OK
-	-1        : error
-*/
-// int check_input(const char *str)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (str[i] && ft_isspace(str[i]))
-// 		i++;
-// 	if (str[i] == '+')
-// 		i++;
-// 	else if (str[i] == '-')
-// 		return (-1);
-// 	if (!is_digit(str[i]))
-// 		return (-2);
-// 	return (i);
-// }
-
-// static inline bool is_digit(char c)
-// {
-// 	return (c >= '0' && c <= '9');
-// }
-
-// static inline bool is_space(char c)
-// {
-// 	return ((c >= 9 && c <= 13) || 32 == c);
-// }
-
-// static long ft_atoi(const char *str)
-// {
-// 	long num;
-
-// 	num = 0;
-// 	str = valid_input(str);
-// 	while (is_digit(*str))
-// 		num = (num * 10) + (*str++ - 48);
-// 	if (num > INT_MAX)
-// 		error_exit("Input value exceeds maximum int");
-// 	return (num);
-// }
-
 static bool is_digit(char c)
 {
 	return (c >= '0' && c <= '9');
@@ -125,20 +80,21 @@ long ft_atoi(const char *str)
 	return (num);
 }
 
-void parse_input(t_var *var, int argc, char *argv[])
+int parse_input(t_var *var, int argc, char *argv[])
 {
 	var->num_of_philo = ft_atoi(argv[1]);
 	var->time_to_die = ft_atoi(argv[2]);
 	var->time_to_eat = ft_atoi(argv[3]);
 	var->time_to_sleep = ft_atoi(argv[4]);
-	// printf("Num Philo: %d\n", var->num_of_philo);
-	// printf("Time2Die: %ld\n", var->time_to_die);
-	// printf("Time2Eat: %ld\n", var->time_to_eat);
-	// printf("Time2Sleep: %ld\n", var->time_to_sleep);
+	printf("Num Philo: %d\n", var->num_of_philo);
+	printf("Time2Die: %ld\n", var->time_to_die);
+	printf("Time2Eat: %ld\n", var->time_to_eat);
+	printf("Time2Sleep: %ld\n", var->time_to_sleep);
 	if (argc == 5)
-		var->limit_meals = -1;
+		var->required_meals = -1;
 	else
-		var->limit_meals = ft_atoi(argv[5]);
-	if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || (var->time_to_eat) <= 0 || (var->time_to_sleep <= 0))
-		error_exit("Value is less than zero");
+		var->required_meals = ft_atoi(argv[5]);
+	// if ((var->num_of_philo <= 0) || (var->time_to_die <= 0) || (var->time_to_eat) <= 0 || (var->time_to_sleep <= 0))
+	// 	error_exit("Value is less than zero");
+	return (0);
 }
