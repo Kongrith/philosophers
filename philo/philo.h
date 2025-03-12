@@ -69,7 +69,7 @@ typedef enum
 } t_philo_status;
 
 // init.c
-void initialization(t_var *var);
+int initialization(t_var *var);
 
 // parse input
 int parse_input(t_var *var, int argc, char *argv[]);
@@ -90,4 +90,8 @@ time_t timestamp_in_ms();
 void write_status(t_philo_status status, t_philo *philo, bool debug);
 
 void wait_all_threads(t_var *var);
+
+// clean.c
+void clean(t_var *var, int level);
+
 #endif

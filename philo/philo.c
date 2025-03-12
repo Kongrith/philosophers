@@ -26,9 +26,8 @@ int main(int argc, char *argv[])
 			return (0);
 		if (initialization(&var) < 0)
 			return (0);
-		printf("I am here\n");
 		start_simulation(&var);
-		// clean();
+		clean(&var, 2);
 	}
 	else
 		error_exit(-1, "Invalid Input Agruments");

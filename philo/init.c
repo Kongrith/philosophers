@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static void init_mutexes(t_var *var)
+static int init_mutexes(t_var *var)
 {
 	int i;
 
@@ -20,9 +20,10 @@ static void init_mutexes(t_var *var)
 	while (i < var->num_of_philo)
 	{
 		if (pthread_mutex_init(&var->forks[i], NULL))
-			error_exit(-1, "Can not init mutex");
+			return (error_exit(-1, "Can not initial mutex"));
 		i++;
 	}
+	return (0);
 }
 
 static void init_philos(t_var *var)
@@ -41,14 +42,21 @@ static void init_philos(t_var *var)
 	}
 }
 
-void initialization(t_var *var)
+int initialization(t_var *var)
 {
 	var->is_dead = 0;
 	var->dead_index = -1;
+	var->all_threads_ready = 0;
 	var->philo = malloc(sizeof(t_philo) * var->num_of_philo);
 	var->monitor = malloc(sizeof(t_monitor));
 	var->forks = malloc(sizeof(pthread_mutex_t) * var->num_of_philo);
-	var->all_threads_ready = 0;
+	if (var->philo == NULL || var->monitor == NULL || var->forks == NULL)
+	{
+		clean(var, 1);
+		return (error_exit(-1, "Can not reserve memory for malloc function\n"));
+	}
 	init_philos(var);
-	init_mutexes(var);
+	if (init_mutexes(var) < 0)
+		return (-1);
+	return (0);
 }

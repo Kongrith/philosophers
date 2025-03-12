@@ -66,7 +66,7 @@ static void create_threads(t_var *var)
 		error_exit(-1, "Failed to created thread");
 }
 
-static void join_mutexes(t_var *var)
+static void join_threads(t_var *var)
 {
 	int i;
 
@@ -87,7 +87,7 @@ int start_simulation(t_var *var)
 	create_threads(var);
 	var->start_timestamp = timestamp_in_ms();
 	var->all_threads_ready = 1;
-	join_mutexes(var);
+	join_threads(var);
 	if (var->is_dead)
 		write_status(DIED, var->philo, DEBUG_MODE);
 	return (0);
