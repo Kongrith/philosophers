@@ -12,20 +12,6 @@
 
 #include "philo.h"
 
-time_t timestamp_in_ms()
-{
-	struct timeval time;
-	long sec;
-	long usec;
-	time_t msec;
-
-	gettimeofday(&time, NULL);
-	sec = time.tv_sec;
-	usec = time.tv_usec;
-	msec = sec * 1000 + usec / 1000;
-	return msec;
-}
-
 // int precise_usleep(long usec)
 // {
 // 	long start;
@@ -60,6 +46,20 @@ time_t timestamp_in_ms()
 // 				;
 // 	}
 // }
+
+time_t timestamp_in_ms()
+{
+	struct timeval time;
+	long sec;
+	long usec;
+	time_t msec;
+
+	gettimeofday(&time, NULL);
+	sec = time.tv_sec;
+	usec = time.tv_usec;
+	msec = sec * 1000 + usec / 1000;
+	return msec;
+}
 
 int error_exit(int err_code, char *str)
 {

@@ -23,6 +23,10 @@ static int init_mutexes(t_var *var)
 			return (error_exit(-1, "Can not initial mutex"));
 		if (pthread_mutex_init(&var->philo[i].lastmeal_mutex, NULL))
 			return (error_exit(-1, "Can not initial mutex"));
+		if (pthread_mutex_init(&var->philo[i].remaining_meals_mutex, NULL))
+			return (error_exit(-1, "Can not initial mutex"));
+		if (pthread_mutex_init(&var->philo[i].id_mutex, NULL))
+			return (error_exit(-1, "Can not initial mutex"));
 		i++;
 	}
 
@@ -36,11 +40,13 @@ static int init_mutexes(t_var *var)
 		return (error_exit(-1, "Can not initial mutex"));
 	if (pthread_mutex_init(&var->deadindex_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
-	if (pthread_mutex_init(&var->deathtimestamp_mutex, NULL))
+	if (pthread_mutex_init(&var->deathtime_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->time2eat_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->time2sleep_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
 
-	// 	pthread_mutex_t deadindex_mutex;	  // start time
-	// pthread_mutex_t deathtimestamp_mutex; // start time
 	return (0);
 }
 

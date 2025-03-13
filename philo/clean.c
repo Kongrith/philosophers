@@ -65,6 +65,8 @@ static void destroy_mutex(t_var *var)
     {
         pthread_mutex_destroy(&var->forks[i]);
         pthread_mutex_destroy(&var->philo[i].lastmeal_mutex);
+        pthread_mutex_destroy(&var->philo[i].remaining_meals_mutex);
+        pthread_mutex_destroy(&var->philo[i].id_mutex);
         i++;
     }
     pthread_mutex_destroy(&var->allready_mutex);
@@ -72,7 +74,9 @@ static void destroy_mutex(t_var *var)
     pthread_mutex_destroy(&var->isdead_mutex);
     pthread_mutex_destroy(&var->time2die_mutex);
     pthread_mutex_destroy(&var->deadindex_mutex);
-    pthread_mutex_destroy(&var->deathtimestamp_mutex);
+    pthread_mutex_destroy(&var->deathtime_mutex);
+    pthread_mutex_destroy(&var->time2eat_mutex);
+    pthread_mutex_destroy(&var->time2sleep_mutex);
 }
 
 void clean(t_var *var, int level)

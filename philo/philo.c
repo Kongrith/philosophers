@@ -17,6 +17,9 @@
 ./philo 4 410 200 200		one philosopher should die
 valgrind --tool=helgrind ./philo 1 800 200 200
 valgrind --tool=drd ./philo 1 800 200 200
+
+valgrind --tool=helgrind ./philo 5 410 200 200
+valgrind --tool=drd  ./philo 5 410 200 200
 */
 int main(int argc, char *argv[])
 {

@@ -39,7 +39,9 @@ typedef struct s_philo
 	time_t last_meal_timestamp;
 	t_var *var;
 	pthread_t thread;
-	pthread_mutex_t lastmeal_mutex; // timestampt for lastmeal time
+	pthread_mutex_t lastmeal_mutex;		   // timestampt for lastmeal time
+	pthread_mutex_t remaining_meals_mutex; // timestampt for lastmeal time
+	pthread_mutex_t id_mutex;			   // timestampt for lastmeal time
 } t_philo;
 
 typedef struct s_var
@@ -57,12 +59,14 @@ typedef struct s_var
 	t_philo *philo;
 	t_monitor *monitor;
 	pthread_mutex_t *forks;
-	pthread_mutex_t allready_mutex;		  // 1: all ready
-	pthread_mutex_t isdead_mutex;		  // 1: die (stop simulation)
-	pthread_mutex_t starttime_mutex;	  // start time
-	pthread_mutex_t time2die_mutex;		  // start time
-	pthread_mutex_t deadindex_mutex;	  // start time
-	pthread_mutex_t deathtimestamp_mutex; // start time
+	pthread_mutex_t allready_mutex;
+	pthread_mutex_t isdead_mutex;
+	pthread_mutex_t starttime_mutex;
+	pthread_mutex_t time2die_mutex;
+	pthread_mutex_t time2eat_mutex;
+	pthread_mutex_t time2sleep_mutex;
+	pthread_mutex_t deadindex_mutex;
+	pthread_mutex_t deathtime_mutex;
 } t_var;
 
 typedef enum
