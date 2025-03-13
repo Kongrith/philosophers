@@ -42,19 +42,19 @@ typedef struct s_philo
 // 	free(table->philos);
 // }
 
-static void free_philosophers(t_var *var)
-{
-    int i;
+// static void free_philosophers(t_var *var)
+// {
+//     int i;
 
-    i = 0;
-    while (i < var->num_of_philo)
-    {
-        //     // if (var->philo[i] != NULL)
-        //     //     free(var->philo[i]);
-        // printf("ID:%d\n", var->philo[i].id);
-        i++;
-    }
-}
+//     i = 0;
+//     while (i < var->num_of_philo)
+//     {
+//         //     // if (var->philo[i] != NULL)
+//         //     //     free(var->philo[i]);
+//         // printf("ID:%d\n", var->philo[i].id);
+//         i++;
+//     }
+// }
 
 static void destroy_mutex(t_var *var)
 {
@@ -63,20 +63,22 @@ static void destroy_mutex(t_var *var)
     i = 0;
     while (i < var->num_of_philo)
     {
-        // pthread_mutex_unlock(&var->forks[i]);
         pthread_mutex_destroy(&var->forks[i]);
+        pthread_mutex_destroy(&var->philo[i].lastmeal_mutex);
         i++;
     }
-    pthread_mutex_destroy(&var->wait_all_threads);
+    pthread_mutex_destroy(&var->allready_mutex);
+    pthread_mutex_destroy(&var->starttime_mutex);
+    pthread_mutex_destroy(&var->isdead_mutex);
+    pthread_mutex_destroy(&var->time2die_mutex);
+    pthread_mutex_destroy(&var->deadindex_mutex);
+    pthread_mutex_destroy(&var->deathtimestamp_mutex);
 }
 
 void clean(t_var *var, int level)
 {
     if (level == 2)
-    {
-        free_philosophers(var);
         destroy_mutex(var);
-    }
     free(var->forks);
     free(var->philo);
     free(var->monitor);

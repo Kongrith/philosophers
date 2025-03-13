@@ -16,22 +16,23 @@ static void *monitor_routine(void *data)
 {
 	int i;
 	t_var *var;
-	time_t spent_time;
+	// time_t spent_time;
 
 	var = (t_var *)data;
 	wait_all_threads(var);
-	usleep(var->time_to_die * 1000 * 0.5);
-	while (!var->is_dead)
+	usleep(get_long(&var->time2die_mutex, var->time_to_die) * 1000 * 0.5);
+	while (!get_int(&var->isdead_mutex, var->is_dead))
 	{
 		i = 0;
-		while ((i < var->num_of_philo) && (!var->is_dead))
+		while ((i < var->num_of_philo) && (!get_int(&var->isdead_mutex, var->is_dead)))
 		{
-			spent_time = timestamp_in_ms() - var->philo->last_meal_timestamp;
-			if (spent_time >= var->time_to_die)
+			// spent_time = timestamp_in_ms() - get_timestamp(&var->philo->lastmeal_mutex, var->philo->last_meal_timestamp);
+			if (timestamp_in_ms() - get_timestamp(&var->philo->lastmeal_mutex, var->philo->last_meal_timestamp) >= get_long(&var->time2die_mutex, var->time_to_die))
 			{
-				var->death_timestamp = timestamp_in_ms() - var->start_timestamp;
-				var->dead_index = i + 1;
-				var->is_dead = 1;
+				// var->death_time = timestamp_in_ms() - get_timestamp(&var->starttime_mutex, var->start_timestamp);
+				set_long(&var->deathtimestamp_mutex, &var->death_time, timestamp_in_ms() - get_timestamp(&var->starttime_mutex, var->start_timestamp));
+				set_int(&var->deadindex_mutex, &var->dead_index, i + 1);
+				set_int(&var->isdead_mutex, &var->is_dead, 1);
 			}
 			i++;
 		}
@@ -84,12 +85,21 @@ static void join_threads(t_var *var)
 
 int start_simulation(t_var *var)
 {
+	set_timestamp(&var->starttime_mutex, &var->start_timestamp, timestamp_in_ms());
+	set_int(&var->allready_mutex, &var->all_threads_ready, 1);
 	create_threads(var);
-	var->start_timestamp = timestamp_in_ms();
-	var->all_threads_ready = 1;
-	pthread_mutex_unlock(&var->wait_all_threads);
+	// set_timestamp(&var->starttime_mutex, &var->start_timestamp, timestamp_in_ms());
+	// set_int(&var->allready_mutex, &var->all_threads_ready, 1);
+
+	// set_int(&var->wait, &var->all_threads_ready, 0);
+	// var->start_timestamp = timestamp_in_ms();
+	// pthread_mutex_lock(&var->wait);
+	// (var->all_threads_ready)++;
+	// pthread_mutex_unlock(&var->wait);
 	join_threads(var);
-	if (var->is_dead)
+
+	// get_int(&var->die_mutex, &var->is_dead)
+	if (get_int(&var->isdead_mutex, var->is_dead))
 		write_status(DIED, var->philo, DEBUG_MODE);
 	return (0);
 }

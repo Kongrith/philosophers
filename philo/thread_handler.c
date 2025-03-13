@@ -41,28 +41,44 @@
 // 	precise_usleep(t_think * 0.42, philo->table);
 // }
 
+// void wait_all_threads(t_table *table)
+// {
+// 	while(get_bool(&table->table_mutex, &table->all_threads_ready))
+// 		;
+// }
+
 void wait_all_threads(t_var *var)
 {
 	// while (!var->all_threads_ready)
 	// 	;
-	pthread_mutex_lock(&var->wait_all_threads);
-	(var->all_threads_ready)++;
-	pthread_mutex_unlock(&var->wait_all_threads);
+	while (!get_int(&var->allready_mutex, var->all_threads_ready))
+		;
+
+	// pthread_mutex_lock(&var->wait_mutex);
+	// (var->all_threads_ready)++;
+	// pthread_mutex_unlock(&var->wait_mutex);
 }
 
 void lone_philo(t_philo *philo)
 {
 	wait_all_threads(philo->var);
-	philo->last_meal_timestamp = timestamp_in_ms();
+	// philo->last_meal_timestamp = timestamp_in_ms();
+	// set_long(&var->starttime_mutex, &var->start_timestamp, timestamp_in_ms());
+	set_timestamp(&philo->lastmeal_mutex, &philo->last_meal_timestamp, timestamp_in_ms());
+
 	pthread_mutex_lock(&philo->var->forks[philo->first_fork]);
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
+
+	// get_long(&philo->lastmeal_mutex, &philo->last_meal_timestamp)
+
 	while (1)
 	{
-		if (timestamp_in_ms() - philo->last_meal_timestamp > philo->var->time_to_die)
+		if (timestamp_in_ms() - get_timestamp(&philo->lastmeal_mutex, philo->last_meal_timestamp) > get_long(&philo->var->time2die_mutex, philo->var->time_to_die))
+
 		{
-			philo->var->death_timestamp = timestamp_in_ms() - philo->var->start_timestamp;
-			philo->var->dead_index = philo->id;
-			philo->var->is_dead = 1;
+			// set_long(&philo->var->deathtimestamp_mutex, &philo->var->death_time, timestamp_in_ms() - get_timestamp(&philo->var->starttime_mutex, philo->var->start_timestamp));
+			// set_int(&philo->var->deadindex_mutex, &philo->var->dead_index, 1);
+			// set_int(&philo->var->isdead_mutex, &philo->var->is_dead, 1);
 			pthread_mutex_unlock(&philo->var->forks[philo->first_fork]);
 			break;
 		}
@@ -73,7 +89,7 @@ void even_odd_approach(t_philo *philo)
 {
 	int count;
 
-	wait_all_threads(philo->var);
+	// wait_all_threads(philo->var);
 	philo->last_meal_timestamp = timestamp_in_ms();
 	if (philo->id % 2)
 		usleep(philo->var->time_to_eat * 1000 * 0.5);

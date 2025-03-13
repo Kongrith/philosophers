@@ -92,6 +92,6 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 		else if (status == THINKING)
 			printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
 		else if (status == DIED)
-			printf("%.3ld %d died\n", philo->var->death_timestamp, philo->var->dead_index);
+			printf("%.3ld %d died\n", philo->var->death_time, philo->var->dead_index);
 	}
 }

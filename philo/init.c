@@ -21,10 +21,26 @@ static int init_mutexes(t_var *var)
 	{
 		if (pthread_mutex_init(&var->forks[i], NULL))
 			return (error_exit(-1, "Can not initial mutex"));
+		if (pthread_mutex_init(&var->philo[i].lastmeal_mutex, NULL))
+			return (error_exit(-1, "Can not initial mutex"));
 		i++;
 	}
-	if (pthread_mutex_init(&var->wait_all_threads, NULL))
+
+	if (pthread_mutex_init(&var->isdead_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->allready_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->starttime_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->time2die_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->deadindex_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->deathtimestamp_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+
+	// 	pthread_mutex_t deadindex_mutex;	  // start time
+	// pthread_mutex_t deathtimestamp_mutex; // start time
 	return (0);
 }
 
@@ -48,12 +64,9 @@ int initialization(t_var *var)
 {
 	var->is_dead = 0;
 	var->dead_index = -1;
-	var->all_threads_ready = 0;
 	var->philo = malloc(sizeof(t_philo) * var->num_of_philo);
 	var->monitor = malloc(sizeof(t_monitor));
 	var->forks = malloc(sizeof(pthread_mutex_t) * var->num_of_philo);
-	// var->wait_all_threads pthread_mutex_t wait_all_threads;
-
 	if (var->philo == NULL || var->monitor == NULL || var->forks == NULL)
 	{
 		clean(var, 1);
@@ -62,8 +75,6 @@ int initialization(t_var *var)
 	init_philos(var);
 	if (init_mutexes(var) < 0)
 		return (-1);
-
-	pthread_mutex_lock(&var->wait_all_threads);
-
+	set_int(&var->allready_mutex, &var->all_threads_ready, 0);
 	return (0);
 }

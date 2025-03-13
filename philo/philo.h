@@ -21,7 +21,7 @@
 #include <sys/time.h> // gettimeofday
 #include <limits.h>	  // INT_MAX
 
-#define DEBUG_MODE false
+#define DEBUG_MODE true
 
 typedef struct s_var t_var;
 
@@ -36,9 +36,10 @@ typedef struct s_philo
 	int first_fork;
 	int second_fork;
 	int remaining_meals;
-	long last_meal_timestamp;
+	time_t last_meal_timestamp;
 	t_var *var;
 	pthread_t thread;
+	pthread_mutex_t lastmeal_mutex; // timestampt for lastmeal time
 } t_philo;
 
 typedef struct s_var
@@ -52,11 +53,16 @@ typedef struct s_var
 	int dead_index;
 	int all_threads_ready;
 	time_t start_timestamp;
-	time_t death_timestamp;
+	time_t death_time;
 	t_philo *philo;
 	t_monitor *monitor;
 	pthread_mutex_t *forks;
-	pthread_mutex_t wait_all_threads;
+	pthread_mutex_t allready_mutex;		  // 1: all ready
+	pthread_mutex_t isdead_mutex;		  // 1: die (stop simulation)
+	pthread_mutex_t starttime_mutex;	  // start time
+	pthread_mutex_t time2die_mutex;		  // start time
+	pthread_mutex_t deadindex_mutex;	  // start time
+	pthread_mutex_t deathtimestamp_mutex; // start time
 } t_var;
 
 typedef enum
@@ -87,6 +93,14 @@ void even_odd_approach(t_philo *philo);
 int error_exit(int err_code, char *str);
 time_t timestamp_in_ms();
 void write_status(t_philo_status status, t_philo *philo, bool debug);
+
+//
+int get_int(pthread_mutex_t *mutex, int value);
+void set_int(pthread_mutex_t *mutex, int *dest, int value);
+time_t get_timestamp(pthread_mutex_t *mutex, time_t value);
+void set_timestamp(pthread_mutex_t *mutex, time_t *dest, time_t value);
+long get_long(pthread_mutex_t *mutex, long value);
+void set_long(pthread_mutex_t *mutex, long *dest, long value);
 
 // clean.c
 void clean(t_var *var, int level);

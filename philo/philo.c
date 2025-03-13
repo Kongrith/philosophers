@@ -15,6 +15,8 @@
 /*
 ./philo 1 800 200 200
 ./philo 4 410 200 200		one philosopher should die
+valgrind --tool=helgrind ./philo 1 800 200 200
+valgrind --tool=drd ./philo 1 800 200 200
 */
 int main(int argc, char *argv[])
 {
@@ -27,7 +29,6 @@ int main(int argc, char *argv[])
 		if (initialization(&var) < 0)
 			return (0);
 		start_simulation(&var);
-		printf("%d\n", var.all_threads_ready);
 		clean(&var, 2);
 	}
 	else
