@@ -85,8 +85,13 @@ void even_odd_approach(t_philo *philo)
 	// philo->last_meal_timestamp = timestamp_in_ms();
 	set_timestamp(&philo->lastmeal_mutex, &philo->last_meal_timestamp, timestamp_in_ms());
 	// if (philo->id % 2)
-	if (get_int(&philo->id_mutex, philo->id) % 2)
+	if (get_int(&philo->id_mutex, philo->id) % 2 == 0)
 		usleep(get_long(&philo->var->time2eat_mutex, philo->var->time_to_eat) * 1000 * 0.5);
+	else if (get_int(&philo->id_mutex, philo->id) == philo->var->num_of_philo)
+	{
+		usleep(get_long(&philo->var->time2eat_mutex, philo->var->time_to_eat) * 1000 * 0.6);
+	}
+
 	// usleep(philo->var->time_to_eat * 1000 * 0.5);
 
 	// if (philo->remaining_meals == -1)

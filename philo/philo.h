@@ -21,7 +21,7 @@
 #include <sys/time.h> // gettimeofday
 #include <limits.h>	  // INT_MAX
 
-#define DEBUG_MODE true
+#define DEBUG_MODE false
 
 typedef struct s_var t_var;
 
