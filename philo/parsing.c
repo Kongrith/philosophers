@@ -22,12 +22,6 @@ static bool is_space(char ch)
 	return ((9 <= ch && ch <= 13) || ch == 32);
 }
 
-/*
-The allowable number: equal or greater than zero
-return:
-	 0 to +Int: OK
-	-1        : error
-*/
 int check_input(const char *str)
 {
 	int i;
@@ -44,20 +38,6 @@ int check_input(const char *str)
 	return (i);
 }
 
-/*
-	1) check for negatives
-	2) check if the number is legit e.g.,   "  +77$%"
-											"  +&%42 "
-	3) check for INT_MAX e.g., 223593333333368
-		check for len 2_147_483_647 if len > 10, sure > INT_MAX
-		(2_147_483_647 -> 9_999_999_999) still to check
-
-	why return ptr?		"   +77&%$""
-					ret		 /\
-
-	Normal Case: equal or greater than zero
-	Error Case : -1
-*/
 long ft_atoi(const char *str)
 {
 	int i;

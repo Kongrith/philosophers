@@ -13,13 +13,13 @@
 #ifndef PHILO_H
 #define PHILO_H
 
-#include <stdio.h>	// printf
-#include <stdlib.h> // malloc, free
-#include <unistd.h> // write, usleep
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <stdbool.h>
-#include <pthread.h>  // mutex: init destroy lock unlock, threadL create join detach
-#include <sys/time.h> // gettimeofday
-#include <limits.h>	  // INT_MAX
+#include <pthread.h>
+#include <sys/time.h>
+#include <limits.h>
 
 #define DEBUG_MODE false
 

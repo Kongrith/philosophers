@@ -12,41 +12,6 @@
 
 #include "philo.h"
 
-// int precise_usleep(long usec)
-// {
-// 	long start;
-
-// 	start = timestamp_in_ms();
-// 	while ((timestamp_in_ms() - start) < time)
-// 		usleep(usec / 10);
-// 	return (0);
-// }
-
-// void precise_usleep(long usec, t_philo *philo)
-// {
-// 	long start;
-// 	long elapseed;
-// 	long rem;
-
-// 	start = timestamp_in_ms();
-// 	while (timestamp_in_ms() - start < usec)
-// 	{
-// 		// 1)
-// 		if (philo->var->is_dead)
-// 			break;
-// 		elapseed = timestamp_in_ms() - start;
-// 		rem = usec - elapseed;
-
-// 		// to get a spinlock thresholda
-// 		if (rem > 1e3)
-// 			usleep(rem / 2);
-// 		else
-// 			// Spin lock
-// 			while (timestamp_in_ms() - start < usec)
-// 				;
-// 	}
-// }
-
 time_t timestamp_in_ms()
 {
 	struct timeval time;
