@@ -6,15 +6,15 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/06 14:15:37 by toon             ###   ########.fr       */
+/*   Updated: 2025/07/17 15:52:18 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int init_mutexes(t_var *var)
+static int	init_mutexes(t_var *var)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < var->num_of_philo)
@@ -29,7 +29,6 @@ static int init_mutexes(t_var *var)
 			return (error_exit(-1, "Can not initial mutex"));
 		i++;
 	}
-
 	if (pthread_mutex_init(&var->isdead_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
 	if (pthread_mutex_init(&var->allready_mutex, NULL))
@@ -46,13 +45,12 @@ static int init_mutexes(t_var *var)
 		return (error_exit(-1, "Can not initial mutex"));
 	if (pthread_mutex_init(&var->time2sleep_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
-
 	return (0);
 }
 
-static void init_philos(t_var *var)
+static void	init_philos(t_var *var)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < var->num_of_philo)
@@ -66,7 +64,7 @@ static void init_philos(t_var *var)
 	}
 }
 
-int initialization(t_var *var)
+int	initialization(t_var *var)
 {
 	var->is_dead = 0;
 	var->dead_index = -1;

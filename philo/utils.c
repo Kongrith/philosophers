@@ -6,27 +6,27 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:35 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/06 14:32:17 by toon             ###   ########.fr       */
+/*   Updated: 2025/07/17 15:48:58 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-time_t timestamp_in_ms()
+time_t	timestamp_in_ms(void)
 {
-	struct timeval time;
-	long sec;
-	long usec;
-	time_t msec;
+	struct timeval	time;
+	long			sec;
+	long			usec;
+	time_t			msec;
 
 	gettimeofday(&time, NULL);
 	sec = time.tv_sec;
 	usec = time.tv_usec;
 	msec = sec * 1000 + usec / 1000;
-	return msec;
+	return (msec);
 }
 
-int error_exit(int err_code, char *str)
+int	error_exit(int err_code, char *str)
 {
 	if (err_code == 0)
 		printf("Error: '%s' shoud not be zero value\n", str);
@@ -41,9 +41,9 @@ int error_exit(int err_code, char *str)
 	return (-1);
 }
 
-void write_status(t_philo_status status, t_philo *philo, bool debug)
+void	write_status(t_philo_status status, t_philo *philo, bool debug)
 {
-	long elapsed_time;
+	long	elapsed_time;
 
 	elapsed_time = timestamp_in_ms() - philo->var->start_timestamp;
 	if (!debug)
@@ -57,6 +57,7 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 		else if (status == THINKING)
 			printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
 		else if (status == DIED)
-			printf("%.3ld %d died\n", philo->var->death_time, philo->var->dead_index);
+			printf("%.3ld %d died\n", \
+philo->var->death_time, philo->var->dead_index);
 	}
 }

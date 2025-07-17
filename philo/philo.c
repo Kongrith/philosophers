@@ -6,15 +6,15 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:51 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/03/06 14:21:32 by toon             ###   ########.fr       */
+/*   Updated: 2025/07/17 15:45:41 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_var var;
+	t_var	var;
 
 	if (argc == 5 || argc == 6)
 	{
