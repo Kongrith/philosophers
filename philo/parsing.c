@@ -99,7 +99,7 @@ int parse_input(t_var *var, int argc, char *argv[])
 	else
 	{
 		var->required_meals = ft_atoi(argv[5]);
-		if (var->required_meals < 0)
+		if (var->required_meals <= 0)
 			return (error_exit(var->required_meals, "number_of_times_each_philosopher_must_eat"));
 	}
 	return (0);

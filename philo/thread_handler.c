@@ -58,7 +58,7 @@ void lone_philo(t_philo *philo)
 	// set_long(&var->starttime_mutex, &var->start_timestamp, timestamp_in_ms());
 	set_timestamp(&philo->lastmeal_mutex, &philo->last_meal_timestamp, timestamp_in_ms());
 
-	pthread_mutex_lock(&philo->var->forks[philo->first_fork]);
+	// pthread_mutex_lock(&philo->var->forks[philo->first_fork]);
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
 
 	// get_long(&philo->lastmeal_mutex, &philo->last_meal_timestamp)
@@ -71,7 +71,7 @@ void lone_philo(t_philo *philo)
 			// set_long(&philo->var->deathtimestamp_mutex, &philo->var->death_time, timestamp_in_ms() - get_timestamp(&philo->var->starttime_mutex, philo->var->start_timestamp));
 			// set_int(&philo->var->deadindex_mutex, &philo->var->dead_index, 1);
 			// set_int(&philo->var->isdead_mutex, &philo->var->is_dead, 1);
-			pthread_mutex_unlock(&philo->var->forks[philo->first_fork]);
+			// pthread_mutex_unlock(&philo->var->forks[philo->first_fork]);
 			break;
 		}
 	}

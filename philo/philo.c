@@ -28,13 +28,13 @@ int main(int argc, char *argv[])
 	if (argc == 5 || argc == 6)
 	{
 		if (parse_input(&var, argc, argv) < 0)
-			return (0);
+			return (-1);
 		if (initialization(&var) < 0)
-			return (0);
+			return (-1);
 		start_simulation(&var);
 		clean(&var, 2);
 	}
 	else
-		error_exit(-1, "Invalid Input Agruments");
+		return (error_exit(-1, "Invalid Input Agruments"));
 	return (0);
 }
