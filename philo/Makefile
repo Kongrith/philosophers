@@ -3,8 +3,17 @@ NAME	= philo
 CXX		= cc -pthread 
 CFLAGS	= -Wextra -Wall -Werror 
 
-SRCS	= philo.c init.c parsing.c simulation.c thread_handler.c clean.c \
-getter_setter1.c getter_setter2.c utils.c
+SRCS	=	philo.c \
+			init.c \
+			parsing.c \
+			simulation.c \
+			thread_handler.c \
+			thread_handler_utils.c \
+			getter_setter1.c \
+			getter_setter2.c \
+			utils.c \
+			clean.c
+			
 OBJS	= ${SRCS:.c=.o}
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/07/17 15:39:34 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:09:11 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,13 @@ int		parse_input(t_var *var, int argc, char *argv[]);
 
 // thread_handler.c
 int		start_simulation(t_var *var);
+
+// thread_handler_utils.c
+void	start_scheme(t_philo *philo);
 void	wait_all_threads(t_var *var);
+int		eat_event(t_philo *philo);
+int		sleep_event(t_philo *philo);
+int		think_event(t_philo *philo);
 
 // simulation.c
 void	lone_philo(t_philo *philo);
