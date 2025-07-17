@@ -6,29 +6,14 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/07/17 15:52:18 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:19:26 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	init_mutexes(t_var *var)
+static int	init_mutex_monitor(t_var *var)
 {
-	int	i;
-
-	i = 0;
-	while (i < var->num_of_philo)
-	{
-		if (pthread_mutex_init(&var->forks[i], NULL))
-			return (error_exit(-1, "Can not initial mutex"));
-		if (pthread_mutex_init(&var->philo[i].lastmeal_mutex, NULL))
-			return (error_exit(-1, "Can not initial mutex"));
-		if (pthread_mutex_init(&var->philo[i].remaining_meals_mutex, NULL))
-			return (error_exit(-1, "Can not initial mutex"));
-		if (pthread_mutex_init(&var->philo[i].id_mutex, NULL))
-			return (error_exit(-1, "Can not initial mutex"));
-		i++;
-	}
 	if (pthread_mutex_init(&var->isdead_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
 	if (pthread_mutex_init(&var->allready_mutex, NULL))
@@ -45,6 +30,35 @@ static int	init_mutexes(t_var *var)
 		return (error_exit(-1, "Can not initial mutex"));
 	if (pthread_mutex_init(&var->time2sleep_mutex, NULL))
 		return (error_exit(-1, "Can not initial mutex"));
+	return (0);
+}
+
+static int	init_mutex_philo(t_var *var, int i)
+{
+	if (pthread_mutex_init(&var->forks[i], NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->philo[i].lastmeal_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->philo[i].remaining_meals_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	if (pthread_mutex_init(&var->philo[i].id_mutex, NULL))
+		return (error_exit(-1, "Can not initial mutex"));
+	return (0);
+}
+
+static int	init_mutexes(t_var *var)
+{
+	int	i;
+
+	i = 0;
+	while (i < var->num_of_philo)
+	{
+		if (init_mutex_philo(var, i) == -1)
+			return (-1);
+		i++;
+	}
+	if (init_mutex_monitor(var) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -78,7 +92,10 @@ int	initialization(t_var *var)
 	}
 	init_philos(var);
 	if (init_mutexes(var) < 0)
+	{
+		clean(var, 1);
 		return (-1);
+	}
 	set_int(&var->allready_mutex, &var->all_threads_ready, 0);
 	return (0);
 }
