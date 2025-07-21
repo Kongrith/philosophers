@@ -45,32 +45,32 @@ static void init_philos(t_var *var, pthread_mutex_t *forks)
 	}
 }
 
-static void init_forks(pthread_mutex_t *forks, int philo_num)
+static int init_forks(pthread_mutex_t *forks, int philo_num)
 {
 	int i;
 
 	i = 0;
 	while (i < philo_num)
 	{
-		pthread_mutex_init(&forks[i], NULL);
+		if (pthread_mutex_init(&forks[i], NULL))
+			return (error_exit(-1, "Can not initial fork mutex"));
 		i++;
 	}
-}
-
-static void init_program(t_var *var, t_philo *philos)
-{
-	var->is_dead = 0;
-	var->philos = philos;
-	pthread_mutex_init(&var->starttime_mutex, NULL);
-	pthread_mutex_init(&var->dead_mutex, NULL);
-	pthread_mutex_init(&var->lastmeal_mutex, NULL);
+	return (0);
 }
 
 int initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks)
 {
-	init_program(var, philos);
-	init_forks(forks, var->num_of_philo);
+	var->is_dead = 0;
+	var->philos = philos;
+	if (pthread_mutex_init(&var->starttime_mutex, NULL))
+		return (error_exit(-1, "Can not initial start time mutex"));
+	if (pthread_mutex_init(&var->dead_mutex, NULL))
+		return (error_exit(-1, "Can not initial dead mutex"));
+	if (pthread_mutex_init(&var->lastmeal_mutex, NULL))
+		return (error_exit(-1, "Can not initial last meal mutex"));
+	if (init_forks(forks, var->num_of_philo) < 0)
+		return (-1);
 	init_philos(var, forks);
-	create_threads(var);
 	return (0);
 }

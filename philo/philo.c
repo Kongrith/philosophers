@@ -22,14 +22,11 @@ int main(int argc, char *argv[])
 	{
 		if (parse_input(&var, argc, argv) < 0)
 			return (-1);
-		// init_program(&var, philos);
-		// init_forks(forks, var.num_of_philo);
-		// init_philos(&var, forks);
-		// create_threads(&var);
-		// join_threads(&var);
-		initialization(&var, philos, forks);
-		// if (initialization(&var, philos, forks) < 0)
-		// 	return (-1);
+		if (initialization(&var, philos, forks) < 0)
+		{
+			clean(&var);
+			return (-1);
+		}
 		start_simulation(&var);
 		clean(&var);
 	}
