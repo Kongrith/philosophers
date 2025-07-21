@@ -78,61 +78,31 @@ typedef enum e_philo_status
 	DIED,
 } t_philo_status;
 
-// init.c
-int initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks);
-// void init_philos(t_var *var);
-// void init_philos(t_var *var, pthread_mutex_t *forks);
-// void create_and_join_threads(t_var *var);
-
 // parse input
 int parse_input(t_var *var, int argc, char *argv[]);
 
-// thread_handler.c
-int start_simulation(t_var *var);
-
-// thread_handler_utils.c
-// void start_scheme(t_philo *philo);
-// void wait_all_threads(t_var *var);
-// void wait_all_threads(t_philo *philo);
-// int eat_event(t_philo *philo);
-// void eat_event(t_philo *philo);
-// int eat_event(t_philo *philo);
-// int sleep_event(t_philo *philo);
-// int think_event(t_philo *philo);
+// init.c
+int initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks);
 
 // simulation.c
-// void lone_philo(t_philo *philo);
-// void even_odd_approach(t_philo *philo);
+int start_simulation(t_var *var);
+
+// thread_handler.c
 void *philo_routine(void *data);
 
-// void create_threads(t_var *var);
-// void create_threads(t_var *var);
-// void join_threads(t_var *var);
+// thread_handler_utikls.c
 int stoping_criteria(t_philo *philo);
 
 // monitor.c
 void *monitor_routine(void *data);
 
 // utils.c
-int error_exit(int err_code, char *str);
-// time_t timestamp_in_ms(void);
 time_t current_time_msec(void);
-// void write_status(t_philo_status status, t_philo *philo, bool debug);
+int precise_sleep(size_t milliseconds);
+int error_exit(int err_code, char *str);
 void write_status(t_philo_status status, t_philo *philo, int id, bool debug);
 
-// getter1.c getter2.c
-// int get_int(pthread_mutex_t *mutex, int value);
-// int get_int(t_var *var, int code);
-// // void set_int(pthread_mutex_t *mutex, int *dest, int value);
-// void set_int(t_var *var, int code, int value);
-// time_t get_timestamp(pthread_mutex_t *mutex, time_t value);
-// void set_timestamp(pthread_mutex_t *mutex, time_t *dest, time_t value);
-// long get_long(pthread_mutex_t *mutex, long value);
-void set_long(pthread_mutex_t *mutex, long *dest, long value);
-
 // clean.c
-// void clean(t_var *var, int level);
-// void clean(t_var *var, pthread_mutex_t *fork);
 void clean(t_var *var);
 int precise_sleep(size_t milliseconds);
 #endif
