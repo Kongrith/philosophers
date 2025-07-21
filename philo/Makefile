@@ -10,8 +10,6 @@ SRCS	=	philo.c \
 			monitor.c \
 			thread_handler.c \
 			thread_handler_utils.c \
-			getter_setter1.c \
-			getter_setter2.c \
 			utils.c \
 			clean.c
 			

@@ -46,17 +46,11 @@ typedef struct s_philo
 	long time_to_eat;
 	long time_to_sleep;
 	int required_meals;
-	// t_var *var;
 	pthread_t thread;
-	// time_t last_meal_timestamp;
-	// pthread_mutex_t *ready_mutex;
-
 	pthread_mutex_t *starttime_mutex;
 	pthread_mutex_t *dead_mutex;
 	pthread_mutex_t *lastmeal_mutex;
 	pthread_mutex_t *forks;
-	// pthread_mutex_t remaining_meals_mutex;
-	// pthread_mutex_t id_mutex;
 } t_philo;
 
 typedef struct s_var
@@ -67,25 +61,12 @@ typedef struct s_var
 	long time_to_sleep;
 	int required_meals;
 	int is_dead;
-	// int dead_index;
-	int all_threads_ready;
+	// int all_threads_ready;
 	time_t start_timestamp;
-	// time_t death_time;
 	t_philo *philos;
-	// t_monitor *monitor;
-	// pthread_mutex_t *forks;
-	// pthread_mutex_t ready_mutex;
-	// pthread_mutex_t allready_mutex;
-
 	pthread_mutex_t starttime_mutex;
 	pthread_mutex_t dead_mutex;
 	pthread_mutex_t lastmeal_mutex;
-
-	// pthread_mutex_t time2die_mutex;
-	// pthread_mutex_t time2eat_mutex;
-	// pthread_mutex_t time2sleep_mutex;
-	// pthread_mutex_t deadindex_mutex;
-	// pthread_mutex_t deathtime_mutex;
 } t_var;
 
 typedef enum e_philo_status
@@ -99,9 +80,10 @@ typedef enum e_philo_status
 } t_philo_status;
 
 // init.c
-int initialization(t_var *var);
+// int initialization(t_var *var);
+int initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks);
 // void init_philos(t_var *var);
-void init_philos(t_var *var, pthread_mutex_t *forks);
+// void init_philos(t_var *var, pthread_mutex_t *forks);
 
 // parse input
 int parse_input(t_var *var, int argc, char *argv[]);
@@ -149,6 +131,7 @@ void set_long(pthread_mutex_t *mutex, long *dest, long value);
 
 // clean.c
 // void clean(t_var *var, int level);
-void clean(t_var *var, pthread_mutex_t *fork);
+// void clean(t_var *var, pthread_mutex_t *fork);
+void clean(t_var *var);
 int precise_sleep(size_t milliseconds);
 #endif

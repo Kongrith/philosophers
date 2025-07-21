@@ -12,6 +12,21 @@
 
 #include "philo.h"
 
+int death_criteria(t_philo *philo)
+{
+    int time_to_die;
+    long lastmeal_timestamp;
+
+    time_to_die = philo->time_to_die;
+    pthread_mutex_lock(philo->lastmeal_mutex);
+    lastmeal_timestamp = current_time_msec() - philo->lastmeal_timestamp;
+    pthread_mutex_unlock(philo->lastmeal_mutex);
+    if (lastmeal_timestamp >= time_to_die && philo->is_eating == 0)
+        return (1);
+    else
+        return (0);
+}
+
 int chk_full(t_philo *philos)
 {
     int i;
@@ -38,21 +53,6 @@ int chk_full(t_philo *philos)
         return (1);
     }
     return (0);
-}
-
-int death_criteria(t_philo *philo)
-{
-    int time_to_die;
-    long lastmeal_timestamp;
-
-    time_to_die = philo->time_to_die;
-    pthread_mutex_lock(philo->lastmeal_mutex);
-    lastmeal_timestamp = current_time_msec() - philo->lastmeal_timestamp;
-    pthread_mutex_unlock(philo->lastmeal_mutex);
-    if (lastmeal_timestamp >= time_to_die && philo->is_eating == 0)
-        return (1);
-    else
-        return (0);
 }
 
 int chk_dead(t_philo *philos)
@@ -84,9 +84,5 @@ void *monitor_routine(void *data)
     philos = (t_philo *)data;
     while (!chk_dead(philos) && !chk_full(philos))
         ;
-    // {
-    //     // if (chk_dead(philos) || chk_full(philos))
-    //     //     break;
-    // }
     return (NULL);
 }

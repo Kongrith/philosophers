@@ -26,6 +26,16 @@ time_t current_time_msec(void)
 	return (msec);
 }
 
+int precise_sleep(size_t milliseconds)
+{
+	size_t start;
+
+	start = current_time_msec();
+	while ((current_time_msec() - start) < milliseconds)
+		usleep(500);
+	return (0);
+}
+
 int error_exit(int err_code, char *str)
 {
 	if (err_code == 0)
@@ -60,17 +70,5 @@ void write_status(t_philo_status status, t_philo *philo, int id, bool debug)
 			printf("%.3ld %d is thinking\n", elapsed_time, id);
 		else if (status == DIED)
 			printf("%.3ld %d died\n", elapsed_time, id);
-		// else if (status == DIED)
-		// 	printf("%.3ld %d died\n", philo->var->death_time, philo->var->dead_index);
 	}
-}
-
-int precise_sleep(size_t milliseconds)
-{
-	size_t start;
-
-	start = current_time_msec();
-	while ((current_time_msec() - start) < milliseconds)
-		usleep(500);
-	return (0);
 }
