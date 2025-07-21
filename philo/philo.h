@@ -11,63 +11,82 @@
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-# define PHILO_H
+#define PHILO_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdbool.h>
-# include <pthread.h>
-# include <sys/time.h>
-# include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdbool.h>
+#include <pthread.h>
+#include <sys/time.h>
+#include <limits.h>
 
-# define DEBUG_MODE false
+#define DEBUG_MODE false
+#define MAX_PHILOS 210
 
-typedef struct s_var	t_var;
+typedef struct s_var t_var;
 
 typedef struct s_monitor
 {
-	pthread_t		thread;
-}	t_monitor;
+	pthread_t thread;
+} t_monitor;
 
 typedef struct s_philo
 {
-	int				id;
-	int				first_fork;
-	int				second_fork;
-	int				remaining_meals;
-	time_t			last_meal_timestamp;
-	t_var			*var;
-	pthread_t		thread;
-	pthread_mutex_t	lastmeal_mutex;
-	pthread_mutex_t	remaining_meals_mutex;
-	pthread_mutex_t	id_mutex;
-}	t_philo;
+	int id;
+	int first_fork;
+	int second_fork;
+	int meals_eaten;
+	int *is_dead;
+	int is_eating;
+	long start_timestamp;
+	long lastmeal_timestamp;
+	int num_of_philo;
+	long time_to_die;
+	long time_to_eat;
+	long time_to_sleep;
+	int required_meals;
+	// t_var *var;
+	pthread_t thread;
+	// time_t last_meal_timestamp;
+	// pthread_mutex_t *ready_mutex;
+
+	pthread_mutex_t *starttime_mutex;
+	pthread_mutex_t *dead_mutex;
+	pthread_mutex_t *lastmeal_mutex;
+	pthread_mutex_t *forks;
+	// pthread_mutex_t remaining_meals_mutex;
+	// pthread_mutex_t id_mutex;
+} t_philo;
 
 typedef struct s_var
 {
-	int				num_of_philo;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	int				required_meals;
-	int				is_dead;
-	int				dead_index;
-	int				all_threads_ready;
-	time_t			start_timestamp;
-	time_t			death_time;
-	t_philo			*philo;
-	t_monitor		*monitor;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	allready_mutex;
-	pthread_mutex_t	isdead_mutex;
-	pthread_mutex_t	starttime_mutex;
-	pthread_mutex_t	time2die_mutex;
-	pthread_mutex_t	time2eat_mutex;
-	pthread_mutex_t	time2sleep_mutex;
-	pthread_mutex_t	deadindex_mutex;
-	pthread_mutex_t	deathtime_mutex;
-}	t_var;
+	int num_of_philo;
+	long time_to_die;
+	long time_to_eat;
+	long time_to_sleep;
+	int required_meals;
+	int is_dead;
+	// int dead_index;
+	int all_threads_ready;
+	time_t start_timestamp;
+	// time_t death_time;
+	t_philo *philos;
+	// t_monitor *monitor;
+	// pthread_mutex_t *forks;
+	// pthread_mutex_t ready_mutex;
+	// pthread_mutex_t allready_mutex;
+
+	pthread_mutex_t starttime_mutex;
+	pthread_mutex_t dead_mutex;
+	pthread_mutex_t lastmeal_mutex;
+
+	// pthread_mutex_t time2die_mutex;
+	// pthread_mutex_t time2eat_mutex;
+	// pthread_mutex_t time2sleep_mutex;
+	// pthread_mutex_t deadindex_mutex;
+	// pthread_mutex_t deathtime_mutex;
+} t_var;
 
 typedef enum e_philo_status
 {
@@ -77,42 +96,59 @@ typedef enum e_philo_status
 	TAKE_FIRST_FORK,
 	TAKE_SECOND_FORK,
 	DIED,
-}	t_philo_status;
+} t_philo_status;
 
 // init.c
-int		initialization(t_var *var);
+int initialization(t_var *var);
+// void init_philos(t_var *var);
+void init_philos(t_var *var, pthread_mutex_t *forks);
 
 // parse input
-int		parse_input(t_var *var, int argc, char *argv[]);
+int parse_input(t_var *var, int argc, char *argv[]);
 
 // thread_handler.c
-int		start_simulation(t_var *var);
+int start_simulation(t_var *var);
 
 // thread_handler_utils.c
-void	start_scheme(t_philo *philo);
-void	wait_all_threads(t_var *var);
-int		eat_event(t_philo *philo);
-int		sleep_event(t_philo *philo);
-int		think_event(t_philo *philo);
+void start_scheme(t_philo *philo);
+// void wait_all_threads(t_var *var);
+void wait_all_threads(t_philo *philo);
+// int eat_event(t_philo *philo);
+// void eat_event(t_philo *philo);
+int eat_event(t_philo *philo);
+int sleep_event(t_philo *philo);
+int think_event(t_philo *philo);
 
 // simulation.c
-void	lone_philo(t_philo *philo);
-void	even_odd_approach(t_philo *philo);
+void lone_philo(t_philo *philo);
+void even_odd_approach(t_philo *philo);
+// void create_threads(t_var *var);
+void create_threads(t_var *var);
+// void join_threads(t_var *var);
+int stoping_criteria(t_philo *philo);
+
+// monitor.c
+void *monitor_routine(void *data);
 
 // utils.c
-int		error_exit(int err_code, char *str);
-time_t	timestamp_in_ms(void);
-void	write_status(t_philo_status status, t_philo *philo, bool debug);
+int error_exit(int err_code, char *str);
+// time_t timestamp_in_ms(void);
+time_t current_time_msec(void);
+// void write_status(t_philo_status status, t_philo *philo, bool debug);
+void write_status(t_philo_status status, t_philo *philo, int id, bool debug);
 
 // getter1.c getter2.c
-int		get_int(pthread_mutex_t *mutex, int value);
-void	set_int(pthread_mutex_t *mutex, int *dest, int value);
-time_t	get_timestamp(pthread_mutex_t *mutex, time_t value);
-void	set_timestamp(pthread_mutex_t *mutex, time_t *dest, time_t value);
-long	get_long(pthread_mutex_t *mutex, long value);
-void	set_long(pthread_mutex_t *mutex, long *dest, long value);
+// int get_int(pthread_mutex_t *mutex, int value);
+int get_int(t_var *var, int code);
+// void set_int(pthread_mutex_t *mutex, int *dest, int value);
+void set_int(t_var *var, int code, int value);
+time_t get_timestamp(pthread_mutex_t *mutex, time_t value);
+void set_timestamp(pthread_mutex_t *mutex, time_t *dest, time_t value);
+long get_long(pthread_mutex_t *mutex, long value);
+void set_long(pthread_mutex_t *mutex, long *dest, long value);
 
 // clean.c
-void	clean(t_var *var, int level);
-
+// void clean(t_var *var, int level);
+void clean(t_var *var, pthread_mutex_t *fork);
+int precise_sleep(size_t milliseconds);
 #endif

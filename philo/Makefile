@@ -7,6 +7,7 @@ SRCS	=	philo.c \
 			init.c \
 			parsing.c \
 			simulation.c \
+			monitor.c \
 			thread_handler.c \
 			thread_handler_utils.c \
 			getter_setter1.c \

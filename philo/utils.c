@@ -12,12 +12,12 @@
 
 #include "philo.h"
 
-time_t	timestamp_in_ms(void)
+time_t current_time_msec(void)
 {
-	struct timeval	time;
-	long			sec;
-	long			usec;
-	time_t			msec;
+	struct timeval time;
+	long sec;
+	long usec;
+	time_t msec;
 
 	gettimeofday(&time, NULL);
 	sec = time.tv_sec;
@@ -26,7 +26,7 @@ time_t	timestamp_in_ms(void)
 	return (msec);
 }
 
-int	error_exit(int err_code, char *str)
+int error_exit(int err_code, char *str)
 {
 	if (err_code == 0)
 		printf("Error: '%s' shoud not be zero value\n", str);
@@ -41,23 +41,36 @@ int	error_exit(int err_code, char *str)
 	return (-1);
 }
 
-void	write_status(t_philo_status status, t_philo *philo, bool debug)
+void write_status(t_philo_status status, t_philo *philo, int id, bool debug)
 {
-	long	elapsed_time;
+	long elapsed_time;
 
-	elapsed_time = timestamp_in_ms() - philo->var->start_timestamp;
+	pthread_mutex_lock(philo->starttime_mutex);
+	elapsed_time = current_time_msec() - philo->start_timestamp;
+	pthread_mutex_unlock(philo->starttime_mutex);
 	if (!debug)
 	{
 		if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
-			printf("%.3ld %d has taken a fork\n", elapsed_time, philo->id);
+			printf("%.3ld %d has taken a fork\n", elapsed_time, id);
 		else if (status == EATING)
-			printf("%.3ld %d is eating\n", elapsed_time, philo->id);
+			printf("%.3ld %d is eating\n", elapsed_time, id);
 		else if (status == SLEEPING)
-			printf("%.3ld %d is sleeping\n", elapsed_time, philo->id);
+			printf("%.3ld %d is sleeping\n", elapsed_time, id);
 		else if (status == THINKING)
-			printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
+			printf("%.3ld %d is thinking\n", elapsed_time, id);
 		else if (status == DIED)
-			printf("%.3ld %d died\n", \
-philo->var->death_time, philo->var->dead_index);
+			printf("%.3ld %d died\n", elapsed_time, id);
+		// else if (status == DIED)
+		// 	printf("%.3ld %d died\n", philo->var->death_time, philo->var->dead_index);
 	}
+}
+
+int precise_sleep(size_t milliseconds)
+{
+	size_t start;
+
+	start = current_time_msec();
+	while ((current_time_msec() - start) < milliseconds)
+		usleep(500);
+	return (0);
 }
