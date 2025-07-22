@@ -6,18 +6,18 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:35 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/07/17 15:48:58 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:54:01 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-time_t current_time_msec(void)
+time_t	current_time_msec(void)
 {
-	struct timeval time;
-	long sec;
-	long usec;
-	time_t msec;
+	struct timeval	time;
+	long			sec;
+	long			usec;
+	time_t			msec;
 
 	gettimeofday(&time, NULL);
 	sec = time.tv_sec;
@@ -26,9 +26,9 @@ time_t current_time_msec(void)
 	return (msec);
 }
 
-int precise_sleep(size_t milliseconds)
+int	precise_sleep(size_t milliseconds)
 {
-	size_t start;
+	size_t	start;
 
 	start = current_time_msec();
 	while ((current_time_msec() - start) < milliseconds)
@@ -36,7 +36,7 @@ int precise_sleep(size_t milliseconds)
 	return (0);
 }
 
-int error_exit(int err_code, char *str)
+int	error_exit(int err_code, char *str)
 {
 	if (err_code == 0)
 		printf("Error: '%s' shoud not be zero value\n", str);
@@ -51,9 +51,9 @@ int error_exit(int err_code, char *str)
 	return (-1);
 }
 
-void write_status(t_philo_status status, t_philo *philo, int id, bool debug)
+void	write_status(t_philo_status status, t_philo *philo, int id, bool debug)
 {
-	long elapsed_time;
+	long	elapsed_time;
 
 	pthread_mutex_lock(philo->starttime_mutex);
 	elapsed_time = current_time_msec() - philo->start_timestamp;

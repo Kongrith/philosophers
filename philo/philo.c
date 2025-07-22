@@ -6,17 +6,17 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:51 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/07/17 15:45:41 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:52:36 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_var var;
-	t_philo philos[MAX_PHILOS];
-	pthread_mutex_t forks[MAX_PHILOS];
+	t_var			var;
+	t_philo			philos[MAX_PHILOS];
+	pthread_mutex_t	forks[MAX_PHILOS];
 
 	if (argc == 5 || argc == 6)
 	{

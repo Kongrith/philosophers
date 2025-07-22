@@ -6,13 +6,13 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/07/17 16:19:26 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:31:48 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void assign_values(t_var *var, pthread_mutex_t *forks, int i)
+static void	assign_values(t_var *var, pthread_mutex_t *forks, int i)
 {
 	var->philos[i].id = i + 1;
 	var->philos[i].first_fork = (i + 1) % var->num_of_philo;
@@ -33,9 +33,9 @@ static void assign_values(t_var *var, pthread_mutex_t *forks, int i)
 	var->philos[i].forks = &forks[i];
 }
 
-static void init_philos(t_var *var, pthread_mutex_t *forks)
+static void	init_philos(t_var *var, pthread_mutex_t *forks)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < var->num_of_philo)
@@ -45,9 +45,9 @@ static void init_philos(t_var *var, pthread_mutex_t *forks)
 	}
 }
 
-static int init_forks(pthread_mutex_t *forks, int philo_num)
+static int	init_forks(pthread_mutex_t *forks, int philo_num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < philo_num)
@@ -59,7 +59,7 @@ static int init_forks(pthread_mutex_t *forks, int philo_num)
 	return (0);
 }
 
-int initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks)
+int	initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks)
 {
 	var->is_dead = 0;
 	var->philos = philos;

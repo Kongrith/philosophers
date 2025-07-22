@@ -6,81 +6,87 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:53:19 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/07/21 21:53:20 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/07/21 23:00:21 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int eat_event(t_philo *philo)
+static int	extend_eat_event(t_philo *philo)
 {
-    pthread_mutex_lock(&philo->forks[philo->first_fork]);
-    if (stoping_criteria(philo) || philo->num_of_philo == 1)
-    {
-        if (philo->num_of_philo == 1)
-            precise_sleep(philo->time_to_die);
-        pthread_mutex_unlock(&philo->forks[philo->first_fork]);
-        return (-1);
-    }
-    write_status(TAKE_FIRST_FORK, philo, philo->id, DEBUG_MODE);
-    pthread_mutex_lock(&philo->forks[philo->second_fork]);
-    philo->is_eating = 1;
-    if (stoping_criteria(philo))
-    {
-        pthread_mutex_unlock(&philo->forks[philo->first_fork]);
-        pthread_mutex_unlock(&philo->forks[philo->second_fork]);
-        return (-1);
-    }
-    write_status(TAKE_SECOND_FORK, philo, philo->id, DEBUG_MODE);
-    write_status(EATING, philo, philo->id, DEBUG_MODE);
-    pthread_mutex_lock(philo->lastmeal_mutex);
-    philo->lastmeal_timestamp = current_time_msec();
-    philo->meals_eaten++;
-    pthread_mutex_unlock(philo->lastmeal_mutex);
-    precise_sleep(philo->time_to_eat);
-    philo->is_eating = 0;
-    pthread_mutex_unlock(&philo->forks[philo->first_fork]);
-    pthread_mutex_unlock(&philo->forks[philo->second_fork]);
-    if (stoping_criteria(philo))
-        return (-1);
-    return (0);
+	write_status(TAKE_SECOND_FORK, philo, philo->id, DEBUG_MODE);
+	write_status(EATING, philo, philo->id, DEBUG_MODE);
+	pthread_mutex_lock(philo->lastmeal_mutex);
+	philo->lastmeal_timestamp = current_time_msec();
+	philo->meals_eaten++;
+	pthread_mutex_unlock(philo->lastmeal_mutex);
+	precise_sleep(philo->time_to_eat);
+	philo->is_eating = 0;
+	pthread_mutex_unlock(&philo->forks[philo->first_fork]);
+	pthread_mutex_unlock(&philo->forks[philo->second_fork]);
+	if (stoping_criteria(philo))
+		return (-1);
+	return (0);
 }
 
-static int sleep_event(t_philo *philo)
+static int	eat_event(t_philo *philo)
 {
-    write_status(SLEEPING, philo, philo->id, DEBUG_MODE);
-    // usleep(philo->time_to_sleep * 1000);
-    precise_sleep(philo->time_to_sleep);
-    if (stoping_criteria(philo))
-        return (-1);
-    return (0);
+	pthread_mutex_lock(&philo->forks[philo->first_fork]);
+	if (stoping_criteria(philo) || philo->num_of_philo == 1)
+	{
+		if (philo->num_of_philo == 1)
+			precise_sleep(philo->time_to_die);
+		pthread_mutex_unlock(&philo->forks[philo->first_fork]);
+		return (-1);
+	}
+	write_status(TAKE_FIRST_FORK, philo, philo->id, DEBUG_MODE);
+	pthread_mutex_lock(&philo->forks[philo->second_fork]);
+	philo->is_eating = 1;
+	if (stoping_criteria(philo))
+	{
+		pthread_mutex_unlock(&philo->forks[philo->first_fork]);
+		pthread_mutex_unlock(&philo->forks[philo->second_fork]);
+		return (-1);
+	}
+	if (extend_eat_event(philo) == -1)
+		return (-1);
+	return (0);
 }
 
-static int think_event(t_philo *philo)
+static int	sleep_event(t_philo *philo)
 {
-    write_status(THINKING, philo, philo->id, DEBUG_MODE);
-    if (stoping_criteria(philo))
-        return (-1);
-    return (0);
+	write_status(SLEEPING, philo, philo->id, DEBUG_MODE);
+	precise_sleep(philo->time_to_sleep);
+	if (stoping_criteria(philo))
+		return (-1);
+	return (0);
 }
 
-void *philo_routine(void *data)
+static int	think_event(t_philo *philo)
 {
-    t_philo *philo;
+	write_status(THINKING, philo, philo->id, DEBUG_MODE);
+	if (stoping_criteria(philo))
+		return (-1);
+	return (0);
+}
 
-    philo = (t_philo *)data;
-    if (philo->id % 2 == 0)
-        precise_sleep(philo->time_to_eat * 0.5);
-    else if (philo->id == philo->num_of_philo)
-        precise_sleep(philo->time_to_eat * 0.6);
-    while (!stoping_criteria(philo))
-    {
-        if (eat_event(philo) < 0)
-            break;
-        if (sleep_event(philo) < 0)
-            break;
-        if (think_event(philo) < 0)
-            break;
-    }
-    return (NULL);
+void	*philo_routine(void *data)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)data;
+	if (philo->id % 2 == 0)
+		precise_sleep(philo->time_to_eat * 0.5);
+	else if (philo->id == philo->num_of_philo)
+		precise_sleep(philo->time_to_eat * 0.6);
+	while (!stoping_criteria(philo))
+	{
+		if (eat_event(philo) < 0)
+			break ;
+		if (sleep_event(philo) < 0)
+			break ;
+		if (think_event(philo) < 0)
+			break ;
+	}
+	return (NULL);
 }
