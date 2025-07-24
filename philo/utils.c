@@ -12,12 +12,12 @@
 
 #include "philo.h"
 
-time_t	current_time_msec(void)
+time_t current_time_msec(void)
 {
-	struct timeval	time;
-	long			sec;
-	long			usec;
-	time_t			msec;
+	struct timeval time;
+	long sec;
+	long usec;
+	time_t msec;
 
 	gettimeofday(&time, NULL);
 	sec = time.tv_sec;
@@ -26,9 +26,9 @@ time_t	current_time_msec(void)
 	return (msec);
 }
 
-int	precise_sleep(size_t milliseconds)
+int precise_sleep(size_t milliseconds)
 {
-	size_t	start;
+	size_t start;
 
 	start = current_time_msec();
 	while ((current_time_msec() - start) < milliseconds)
@@ -36,7 +36,7 @@ int	precise_sleep(size_t milliseconds)
 	return (0);
 }
 
-int	error_exit(int err_code, char *str)
+int error_exit(int err_code, char *str)
 {
 	if (err_code == 0)
 		printf("Error: '%s' shoud not be zero value\n", str);
@@ -48,12 +48,14 @@ int	error_exit(int err_code, char *str)
 		printf("Error: '%s' shoud be number\n", str);
 	else if (err_code == -4)
 		printf("Error: '%s' exceed MAX INTEGER\n", str);
+	else if (err_code == -5)
+		printf("Error: '%s' should not greater than %d\n", str, MAX_PHILOS);
 	return (-1);
 }
 
-void	write_status(t_philo_status status, t_philo *philo, int id, bool debug)
+void write_status(t_philo_status status, t_philo *philo, int id, bool debug)
 {
-	long	elapsed_time;
+	long elapsed_time;
 
 	pthread_mutex_lock(philo->starttime_mutex);
 	elapsed_time = current_time_msec() - philo->start_timestamp;

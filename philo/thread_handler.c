@@ -12,48 +12,40 @@
 
 #include "philo.h"
 
-static int	extend_eat_event(t_philo *philo)
+static void extend_eat_event(t_philo *philo)
 {
+	pthread_mutex_lock(philo->second_fork);
 	write_status(TAKE_SECOND_FORK, philo, philo->id, DEBUG_MODE);
 	write_status(EATING, philo, philo->id, DEBUG_MODE);
+	philo->is_eating = 1;
 	pthread_mutex_lock(philo->lastmeal_mutex);
 	philo->lastmeal_timestamp = current_time_msec();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->lastmeal_mutex);
 	precise_sleep(philo->time_to_eat);
 	philo->is_eating = 0;
-	pthread_mutex_unlock(&philo->forks[philo->first_fork]);
-	pthread_mutex_unlock(&philo->forks[philo->second_fork]);
-	if (stoping_criteria(philo))
-		return (-1);
-	return (0);
+	pthread_mutex_unlock(philo->first_fork);
+	pthread_mutex_unlock(philo->second_fork);
 }
 
-static int	eat_event(t_philo *philo)
+static int eat_event(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->forks[philo->first_fork]);
+	pthread_mutex_lock(philo->first_fork);
+	write_status(TAKE_FIRST_FORK, philo, philo->id, DEBUG_MODE);
 	if (stoping_criteria(philo) || philo->num_of_philo == 1)
 	{
 		if (philo->num_of_philo == 1)
 			precise_sleep(philo->time_to_die);
-		pthread_mutex_unlock(&philo->forks[philo->first_fork]);
+		pthread_mutex_unlock(philo->first_fork);
 		return (-1);
 	}
-	write_status(TAKE_FIRST_FORK, philo, philo->id, DEBUG_MODE);
-	pthread_mutex_lock(&philo->forks[philo->second_fork]);
-	philo->is_eating = 1;
+	extend_eat_event(philo);
 	if (stoping_criteria(philo))
-	{
-		pthread_mutex_unlock(&philo->forks[philo->first_fork]);
-		pthread_mutex_unlock(&philo->forks[philo->second_fork]);
-		return (-1);
-	}
-	if (extend_eat_event(philo) == -1)
 		return (-1);
 	return (0);
 }
 
-static int	sleep_event(t_philo *philo)
+static int sleep_event(t_philo *philo)
 {
 	write_status(SLEEPING, philo, philo->id, DEBUG_MODE);
 	precise_sleep(philo->time_to_sleep);
@@ -62,7 +54,7 @@ static int	sleep_event(t_philo *philo)
 	return (0);
 }
 
-static int	think_event(t_philo *philo)
+static int think_event(t_philo *philo)
 {
 	write_status(THINKING, philo, philo->id, DEBUG_MODE);
 	if (stoping_criteria(philo))
@@ -70,9 +62,9 @@ static int	think_event(t_philo *philo)
 	return (0);
 }
 
-void	*philo_routine(void *data)
+void *philo_routine(void *data)
 {
-	t_philo	*philo;
+	t_philo *philo;
 
 	philo = (t_philo *)data;
 	if (philo->id % 2 == 0)
@@ -82,11 +74,12 @@ void	*philo_routine(void *data)
 	while (!stoping_criteria(philo))
 	{
 		if (eat_event(philo) < 0)
-			break ;
+			break;
 		if (sleep_event(philo) < 0)
-			break ;
+			break;
 		if (think_event(philo) < 0)
-			break ;
+			break;
 	}
+	printf("finish routine\n");
 	return (NULL);
 }

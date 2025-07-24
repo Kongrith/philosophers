@@ -12,14 +12,16 @@
 
 #include "philo.h"
 
-void	clean(t_var *var)
+void clean(t_var *var)
 {
-	int	i;
+	int i;
+	pthread_mutex_t *fork;
 
 	i = 0;
 	while (i < var->num_of_philo)
 	{
-		pthread_mutex_destroy(var->philos[i].forks);
+		fork = var->philos[i].second_fork;
+		pthread_mutex_destroy(fork);
 		i++;
 	}
 	pthread_mutex_destroy(&var->starttime_mutex);

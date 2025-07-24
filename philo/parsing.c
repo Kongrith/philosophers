@@ -12,19 +12,19 @@
 
 #include "philo.h"
 
-static bool	is_digit(char c)
+static bool is_digit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-static bool	is_space(char ch)
+static bool is_space(char ch)
 {
 	return ((9 <= ch && ch <= 13) || ch == 32);
 }
 
-static int	check_input(const char *str)
+static int check_input(const char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i] && is_space(str[i]))
@@ -38,11 +38,11 @@ static int	check_input(const char *str)
 	return (i);
 }
 
-static long	ft_atoi(const char *str)
+static long ft_atoi(const char *str)
 {
-	int		i;
-	int		ret;
-	long	num;
+	int i;
+	int ret;
+	long num;
 
 	num = 0;
 	ret = check_input(str);
@@ -60,12 +60,14 @@ static long	ft_atoi(const char *str)
 	return (num);
 }
 
-int	parse_input(t_var *var, int argc, char *argv[])
+int parse_input(t_var *var, int argc, char *argv[])
 {
 	var->num_of_philo = ft_atoi(argv[1]);
 	var->time_to_die = ft_atoi(argv[2]);
 	var->time_to_eat = ft_atoi(argv[3]);
 	var->time_to_sleep = ft_atoi(argv[4]);
+	if (var->num_of_philo > MAX_PHILOS)
+		return (error_exit(-5, "number of philo"));
 	if (var->num_of_philo <= 0)
 		return (error_exit(var->num_of_philo, "number of philo"));
 	if (var->time_to_die <= 0)
@@ -80,8 +82,8 @@ int	parse_input(t_var *var, int argc, char *argv[])
 	{
 		var->required_meals = ft_atoi(argv[5]);
 		if (var->required_meals <= 0)
-			return (error_exit(var->required_meals, \
-"number_of_times_each_philosopher_must_eat"));
+			return (error_exit(var->required_meals,
+							   "number_of_times_each_philosopher_must_eat"));
 	}
 	return (0);
 }

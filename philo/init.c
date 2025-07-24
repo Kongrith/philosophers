@@ -12,11 +12,15 @@
 
 #include "philo.h"
 
-static void	assign_values(t_var *var, pthread_mutex_t *forks, int i)
+static void assign_values(t_var *var, pthread_mutex_t *forks, int i)
 {
 	var->philos[i].id = i + 1;
-	var->philos[i].first_fork = (i + 1) % var->num_of_philo;
-	var->philos[i].second_fork = i;
+	// var->philos[i].first_fork = (i + 1) % var->num_of_philo;
+	// philos[i].r_fork = &forks[philos[i].num_of_philos - 1];
+	var->philos[i].first_fork = &forks[(i + 1) % var->num_of_philo];
+	// var->philos[i].second_fork = i;
+	// philos[i].r_fork = &forks[i - 1];
+	var->philos[i].second_fork = &forks[i];
 	var->philos[i].meals_eaten = 0;
 	var->philos[i].is_dead = &var->is_dead;
 	var->philos[i].is_eating = 0;
@@ -30,12 +34,12 @@ static void	assign_values(t_var *var, pthread_mutex_t *forks, int i)
 	var->philos[i].starttime_mutex = &var->starttime_mutex;
 	var->philos[i].dead_mutex = &var->dead_mutex;
 	var->philos[i].lastmeal_mutex = &var->lastmeal_mutex;
-	var->philos[i].forks = &forks[i];
+	// var->philos[i].forks = &forks[i];
 }
 
-static void	init_philos(t_var *var, pthread_mutex_t *forks)
+static void init_philos(t_var *var, pthread_mutex_t *forks)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < var->num_of_philo)
@@ -45,9 +49,9 @@ static void	init_philos(t_var *var, pthread_mutex_t *forks)
 	}
 }
 
-static int	init_forks(pthread_mutex_t *forks, int philo_num)
+static int init_forks(pthread_mutex_t *forks, int philo_num)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < philo_num)
@@ -59,7 +63,7 @@ static int	init_forks(pthread_mutex_t *forks, int philo_num)
 	return (0);
 }
 
-int	initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks)
+int initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks)
 {
 	var->is_dead = 0;
 	var->philos = philos;

@@ -12,11 +12,11 @@
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	t_var			var;
-	t_philo			philos[MAX_PHILOS];
-	pthread_mutex_t	forks[MAX_PHILOS];
+	t_var var;
+	t_philo philos[MAX_PHILOS];
+	pthread_mutex_t forks[MAX_PHILOS];
 
 	if (argc == 5 || argc == 6)
 	{

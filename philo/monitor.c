@@ -12,10 +12,10 @@
 
 #include "philo.h"
 
-int	death_criteria(t_philo *philo)
+int death_criteria(t_philo *philo)
 {
-	int		time_to_die;
-	long	lastmeal_timestamp;
+	int time_to_die;
+	long lastmeal_timestamp;
 
 	time_to_die = philo->time_to_die;
 	pthread_mutex_lock(philo->lastmeal_mutex);
@@ -27,10 +27,10 @@ int	death_criteria(t_philo *philo)
 		return (0);
 }
 
-int	chk_full(t_philo *philos)
+int chk_full(t_philo *philos)
 {
-	int	i;
-	int	full_philo;
+	int i;
+	int full_philo;
 
 	i = 0;
 	full_philo = 0;
@@ -55,10 +55,10 @@ int	chk_full(t_philo *philos)
 	return (0);
 }
 
-int	chk_dead(t_philo *philos)
+int chk_dead(t_philo *philos)
 {
-	int	i;
-	int	num_philo;
+	int i;
+	int num_philo;
 
 	i = 0;
 	num_philo = philos[0].num_of_philo;
@@ -77,9 +77,9 @@ int	chk_dead(t_philo *philos)
 	return (0);
 }
 
-void	*monitor_routine(void *data)
+void *monitor_routine(void *data)
 {
-	t_philo	*philos;
+	t_philo *philos;
 
 	philos = (t_philo *)data;
 	while (!chk_dead(philos) && !chk_full(philos))
