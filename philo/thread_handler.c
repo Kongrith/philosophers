@@ -80,6 +80,5 @@ void *philo_routine(void *data)
 		if (think_event(philo) < 0)
 			break;
 	}
-	printf("finish routine\n");
 	return (NULL);
 }
