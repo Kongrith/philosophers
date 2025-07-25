@@ -57,6 +57,7 @@ static int sleep_event(t_philo *philo)
 static int think_event(t_philo *philo)
 {
 	write_status(THINKING, philo, philo->id, DEBUG_MODE);
+	precise_sleep(1);
 	if (stoping_criteria(philo))
 		return (-1);
 	return (0);
