@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+/*
 static int ft_isspace(int ch)
 {
 	if ((9 <= ch && ch <= 13) || ch == 32)
@@ -69,6 +70,61 @@ long ft_atoi(const char *str)
 	if (input_number < INT_MIN || input_number > INT_MAX)
 		return (-4);
 	return (input_number);
+}
+
+*/
+
+static bool is_digit(char c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+static bool is_space(char ch)
+{
+	return ((9 <= ch && ch <= 13) || ch == 32);
+}
+
+static int check_input(const char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && is_space(str[i]))
+		i++;
+	if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+		return (-2);
+	if (!is_digit(str[i]))
+		return (-3);
+	return (i);
+}
+
+static long ft_atoi(const char *str)
+{
+	int i;
+	int ret;
+	long num;
+
+	num = 0;
+	ret = check_input(str);
+	if (ret < 0)
+		return (ret);
+	else
+		i = ret;
+	while (str[i])
+	{
+		if (is_digit(str[i]))
+		{
+			num = (num * 10) + (str[i] - '0');
+			i++;
+		}
+		else
+			return (-3);
+	}
+	if (num < INT_MIN || num > INT_MAX)
+		return (-4);
+	return (num);
 }
 
 int parse_input(t_var *var, int argc, char *argv[])
