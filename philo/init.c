@@ -6,13 +6,13 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/07/26 03:13:33 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/08/01 04:24:36 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void assign_values(t_var *var, int i)
+static void	assign_values(t_var *var, int i)
 {
 	var->philos[i].meals_eaten = 0;
 	var->philos[i].is_finish = &var->is_finish;
@@ -29,9 +29,9 @@ static void assign_values(t_var *var, int i)
 	var->philos[i].lastmeal_mutex = &var->lastmeal_mutex;
 }
 
-static void init_philos(t_var *var, pthread_mutex_t *forks)
+static void	init_philos(t_var *var, pthread_mutex_t *forks)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < var->num_of_philo)
@@ -52,9 +52,9 @@ static void init_philos(t_var *var, pthread_mutex_t *forks)
 	}
 }
 
-static int init_forks(pthread_mutex_t *forks, int philo_num)
+static int	init_forks(pthread_mutex_t *forks, int philo_num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < philo_num)
@@ -66,7 +66,7 @@ static int init_forks(pthread_mutex_t *forks, int philo_num)
 	return (0);
 }
 
-int initialization(t_var *var)
+int	initialization(t_var *var)
 {
 	var->is_finish = 0;
 	var->philos = malloc(sizeof(t_philo) * var->num_of_philo);
