@@ -12,17 +12,15 @@
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	t_var			var;
-	t_philo			philos[MAX_PHILOS];
-	pthread_mutex_t	forks[MAX_PHILOS];
+	t_var var;
 
 	if (argc == 5 || argc == 6)
 	{
 		if (parse_input(&var, argc, argv) < 0)
 			return (-1);
-		if (initialization(&var, philos, forks) < 0)
+		if (initialization(&var) < 0)
 		{
 			clean(&var);
 			return (-1);

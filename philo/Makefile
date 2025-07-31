@@ -1,7 +1,8 @@
-NAME	= philo
+NAME		= philo
 
-CXX		= cc -pthread 
-CFLAGS	= -Wextra -Wall -Werror 
+CXX			= cc
+CFLAGS		= -Wextra -Wall -Werror -pthread
+LINK_CFLAGS = $(CFLAGS)
 
 SRCS	=	philo.c \
 			init.c \
@@ -22,7 +23,7 @@ all: $(NAME)
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(NAME): $(OBJS)
-	$(CXX) $(OBJS) -o $(NAME)
+	$(CXX) $(OBJS) $(LINK_CFLAGS) -o $(NAME)
 
 clean:
 	@rm -rf $(OBJS)

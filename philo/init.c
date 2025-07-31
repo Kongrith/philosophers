@@ -12,11 +12,8 @@
 
 #include "philo.h"
 
-static void	assign_values(t_var *var, pthread_mutex_t *forks, int i)
+static void assign_values(t_var *var, int i)
 {
-	var->philos[i].id = i + 1;
-	var->philos[i].first_fork = &forks[(i + 1) % var->num_of_philo];
-	var->philos[i].second_fork = &forks[i];
 	var->philos[i].meals_eaten = 0;
 	var->philos[i].is_dead = &var->is_dead;
 	var->philos[i].is_eating = 0;
@@ -32,21 +29,32 @@ static void	assign_values(t_var *var, pthread_mutex_t *forks, int i)
 	var->philos[i].lastmeal_mutex = &var->lastmeal_mutex;
 }
 
-static void	init_philos(t_var *var, pthread_mutex_t *forks)
+static void init_philos(t_var *var, pthread_mutex_t *forks)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < var->num_of_philo)
 	{
-		assign_values(var, forks, i);
+		var->philos[i].id = i + 1;
+		if (var->philos[i].id % 2 == 0)
+		{
+			var->philos[i].first_fork = &forks[i];
+			var->philos[i].second_fork = &forks[(i + 1) % var->num_of_philo];
+		}
+		else
+		{
+			var->philos[i].first_fork = &forks[(i + 1) % var->num_of_philo];
+			var->philos[i].second_fork = &forks[i];
+		}
+		assign_values(var, i);
 		i++;
 	}
 }
 
-static int	init_forks(pthread_mutex_t *forks, int philo_num)
+static int init_forks(pthread_mutex_t *forks, int philo_num)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < philo_num)
@@ -58,18 +66,20 @@ static int	init_forks(pthread_mutex_t *forks, int philo_num)
 	return (0);
 }
 
-int	initialization(t_var *var, t_philo *philos, pthread_mutex_t *forks)
+int initialization(t_var *var)
 {
 	var->is_dead = 0;
-	var->philos = philos;
+	var->philos = malloc(sizeof(t_philo) * var->num_of_philo);
+	var->monitor = malloc(sizeof(t_monitor));
+	var->forks = malloc(sizeof(pthread_mutex_t) * var->num_of_philo);
 	if (pthread_mutex_init(&var->starttime_mutex, NULL))
 		return (error_exit(-1, "Can not initial start time mutex"));
 	if (pthread_mutex_init(&var->dead_mutex, NULL))
 		return (error_exit(-1, "Can not initial dead mutex"));
 	if (pthread_mutex_init(&var->lastmeal_mutex, NULL))
 		return (error_exit(-1, "Can not initial last meal mutex"));
-	if (init_forks(forks, var->num_of_philo) < 0)
+	if (init_forks(var->forks, var->num_of_philo) < 0)
 		return (-1);
-	init_philos(var, forks);
+	init_philos(var, var->forks);
 	return (0);
 }
