@@ -1,8 +1,10 @@
 NAME		= philo
 
 CXX			= cc
-CFLAGS		= -Wextra -Wall -Werror -pthread
+CFLAGS	= -Wextra -Wall -Werror -pthread
+# CFLAGS		= -g -Wall -Werror -Wextra -O3 -fsanitize=address
 LINK_CFLAGS = $(CFLAGS)
+
 
 SRCS	=	philo.c \
 			init.c \

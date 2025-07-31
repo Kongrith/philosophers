@@ -11,13 +11,12 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+
 static int create_and_join_threads(t_var *var)
 {
 	int i;
 
 	i = 0;
-	if (pthread_create(&var->monitor->thread, NULL, &monitor_routine, var->philos) != 0)
-		error_exit(-1, "Failed to created thread");
 	while (i < var->num_of_philo)
 	{
 		if (pthread_create(&var->philos[i].thread, NULL, &philo_routine,
@@ -25,8 +24,8 @@ static int create_and_join_threads(t_var *var)
 			error_exit(-1, "Failed to created thread");
 		i++;
 	}
-	if (pthread_join(var->monitor->thread, NULL) != 0)
-		error_exit(-1, "Failed to join thread");
+	if (pthread_create(&var->monitor->thread, NULL, &monitor_routine, var->philos) != 0)
+		error_exit(-1, "Failed to created thread");
 	i = 0;
 	while (i < var->num_of_philo)
 	{
@@ -34,6 +33,8 @@ static int create_and_join_threads(t_var *var)
 			error_exit(-1, "Failed to join thread");
 		i++;
 	}
+	if (pthread_join(var->monitor->thread, NULL) != 0)
+		error_exit(-1, "Failed to join thread");
 	return (0);
 }
 
