@@ -6,17 +6,17 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:53:19 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/07/21 23:00:21 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/07/26 03:09:44 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void extend_eat_event(t_philo *philo)
+static void	extend_eat_event(t_philo *philo)
 {
 	pthread_mutex_lock(philo->second_fork);
-	write_status(TAKE_SECOND_FORK, philo, philo->id, DEBUG_MODE);
-	write_status(EATING, philo, philo->id, DEBUG_MODE);
+	write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
+	write_status(EATING, philo, DEBUG_MODE);
 	philo->is_eating = 1;
 	pthread_mutex_lock(philo->lastmeal_mutex);
 	philo->lastmeal_timestamp = current_time_msec();
@@ -28,10 +28,10 @@ static void extend_eat_event(t_philo *philo)
 	pthread_mutex_unlock(philo->second_fork);
 }
 
-static int eat_event(t_philo *philo)
+static int	eat_event(t_philo *philo)
 {
 	pthread_mutex_lock(philo->first_fork);
-	write_status(TAKE_FIRST_FORK, philo, philo->id, DEBUG_MODE);
+	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
 	if (stoping_criteria(philo) || philo->num_of_philo == 1)
 	{
 		if (philo->num_of_philo == 1)
@@ -45,41 +45,41 @@ static int eat_event(t_philo *philo)
 	return (0);
 }
 
-static int sleep_event(t_philo *philo)
+static int	sleep_event(t_philo *philo)
 {
-	write_status(SLEEPING, philo, philo->id, DEBUG_MODE);
+	write_status(SLEEPING, philo, DEBUG_MODE);
 	precise_sleep(philo->time_to_sleep);
 	if (stoping_criteria(philo))
 		return (-1);
 	return (0);
 }
 
-static int think_event(t_philo *philo)
+static int	think_event(t_philo *philo)
 {
-	write_status(THINKING, philo, philo->id, DEBUG_MODE);
+	write_status(THINKING, philo, DEBUG_MODE);
 	precise_sleep(1);
 	if (stoping_criteria(philo))
 		return (-1);
 	return (0);
 }
 
-void *philo_routine(void *data)
+void	*philo_routine(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	if (philo->id % 2 == 0)
 		precise_sleep(philo->time_to_eat * 0.5);
-	else if (philo->id == philo->num_of_philo)
+	else if (philo->id == philo->num_of_philo && philo->num_of_philo != 1)
 		precise_sleep(philo->time_to_eat * 0.6);
 	while (!stoping_criteria(philo))
 	{
 		if (eat_event(philo) < 0)
-			break;
+			break ;
 		if (sleep_event(philo) < 0)
-			break;
+			break ;
 		if (think_event(philo) < 0)
-			break;
+			break ;
 	}
 	return (NULL);
 }

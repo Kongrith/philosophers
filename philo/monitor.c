@@ -6,31 +6,36 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:42:45 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/07/21 22:51:48 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/07/26 03:16:51 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int death_criteria(t_philo *philo)
+int	death_criteria(t_philo *philo)
 {
-	int time_to_die;
-	long lastmeal_timestamp;
+	int		time_to_die;
+	long	lastmeal_timestamp;
 
 	time_to_die = philo->time_to_die;
 	pthread_mutex_lock(philo->lastmeal_mutex);
 	lastmeal_timestamp = current_time_msec() - philo->lastmeal_timestamp;
 	pthread_mutex_unlock(philo->lastmeal_mutex);
 	if (lastmeal_timestamp >= time_to_die && philo->is_eating == 0)
+	{
+		pthread_mutex_lock(philo->dead_mutex);
+		*philo->is_dead = 1;
+		pthread_mutex_unlock(philo->dead_mutex);
 		return (1);
+	}
 	else
 		return (0);
 }
 
-int chk_full(t_philo *philos)
+int	chk_full(t_philo *philos)
 {
-	int i;
-	int full_philo;
+	int	i;
+	int	full_philo;
 
 	i = 0;
 	full_philo = 0;
@@ -55,10 +60,10 @@ int chk_full(t_philo *philos)
 	return (0);
 }
 
-int chk_dead(t_philo *philos)
+int	chk_dead(t_philo *philos)
 {
-	int i;
-	int num_philo;
+	int	i;
+	int	num_philo;
 
 	i = 0;
 	num_philo = philos[0].num_of_philo;
@@ -66,10 +71,7 @@ int chk_dead(t_philo *philos)
 	{
 		if (death_criteria(&philos[i]))
 		{
-			pthread_mutex_lock(philos[i].dead_mutex);
-			*philos->is_dead = 1;
-			write_status(DIED, &philos[i], i + 1, DEBUG_MODE);
-			pthread_mutex_unlock(philos[i].dead_mutex);
+			write_status(DIED, &philos[i], DEBUG_MODE);
 			return (1);
 		}
 		i++;
@@ -77,9 +79,9 @@ int chk_dead(t_philo *philos)
 	return (0);
 }
 
-void *monitor_routine(void *data)
+void	*monitor_routine(void *data)
 {
-	t_philo *philos;
+	t_philo	*philos;
 
 	philos = (t_philo *)data;
 	while (!chk_dead(philos) && !chk_full(philos))

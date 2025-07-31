@@ -6,16 +6,16 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:17:30 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/07/21 22:54:38 by khkomasa         ###   ########.fr       */
+/*   Updated: 2025/07/26 03:12:16 by khkomasa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void clean(t_var *var)
+void	clean(t_var *var)
 {
-	int i;
-	pthread_mutex_t *fork;
+	int				i;
+	pthread_mutex_t	*fork;
 
 	i = 0;
 	while (i < var->num_of_philo)
