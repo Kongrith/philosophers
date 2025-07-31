@@ -76,6 +76,7 @@ typedef enum e_philo_status
 	TAKE_FIRST_FORK,
 	TAKE_SECOND_FORK,
 	DIED,
+	FULL,
 } t_philo_status;
 
 // parse input

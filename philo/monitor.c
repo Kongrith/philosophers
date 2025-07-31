@@ -53,8 +53,9 @@ int chk_full(t_philo *philos)
 	{
 		pthread_mutex_lock(philos[0].dead_mutex);
 		*philos->is_dead = 1;
-		printf("All philos has eaten the minimum meals\n");
 		pthread_mutex_unlock(philos[0].dead_mutex);
+		write_status(FULL, &philos[0], DEBUG_MODE);
+		// printf("All philos has eaten the minimum meals\n");
 		return (1);
 	}
 	return (0);
