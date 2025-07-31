@@ -56,36 +56,63 @@ void write_status(t_philo_status status, t_philo *philo, bool debug)
 	long elapsed_time;
 	int dead_status;
 
-	pthread_mutex_lock(philo->starttime_mutex);
-	elapsed_time = current_time_msec() - philo->start_timestamp;
-	pthread_mutex_unlock(philo->starttime_mutex);
+	if (debug)
+		return;
+
+	// pthread_mutex_lock(philo->starttime_mutex);
+	// elapsed_time = current_time_msec() - philo->start_timestamp;
+	// pthread_mutex_unlock(philo->starttime_mutex);
 	// if (!debug)
 	// {
 	// 	if (status == DIED)
 	// 		printf("%.3ld %d died\n", elapsed_time, philo->id);
 	// }
+
 	pthread_mutex_lock(philo->dead_mutex);
 	dead_status = *philo->is_dead;
-	pthread_mutex_unlock(philo->dead_mutex);
-	if (!debug && !dead_status)
-	// if (!debug)
-	{
-		if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
-			printf("%.3ld %d has taken a fork\n", elapsed_time, philo->id);
-		else if (status == EATING)
-			printf("%.3ld %d is eating\n", elapsed_time, philo->id);
-		else if (status == SLEEPING)
-			printf("%.3ld %d is sleeping\n", elapsed_time, philo->id);
-		else if (status == THINKING)
-			printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
-	}
-	else if (dead_status)
+	if (dead_status)
 	{
 		if (status == DIED)
+		{
+			pthread_mutex_lock(philo->starttime_mutex);
+			elapsed_time = current_time_msec() - philo->start_timestamp;
 			printf("%.3ld %d died\n", elapsed_time, philo->id);
-		// else if (status == FULL)
-		// 	printf("All philos has eaten the minimum meals\n");
-		// else
-		// 	printf("All philos has eaten the minimum meals\n");
+			pthread_mutex_unlock(philo->starttime_mutex);
+		}
+		pthread_mutex_unlock(philo->dead_mutex);
+		return;
 	}
+	pthread_mutex_lock(philo->starttime_mutex);
+	elapsed_time = current_time_msec() - philo->start_timestamp;
+	pthread_mutex_unlock(philo->starttime_mutex);
+	if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
+		printf("%.3ld %d has taken a fork\n", elapsed_time, philo->id);
+	else if (status == EATING)
+		printf("%.3ld %d is eating\n", elapsed_time, philo->id);
+	else if (status == SLEEPING)
+		printf("%.3ld %d is sleeping\n", elapsed_time, philo->id);
+	else if (status == THINKING)
+		printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
+	pthread_mutex_unlock(philo->dead_mutex);
+	// if (!debug && !dead_status)
+	// // if (!debug)
+	// {
+	// 	if (status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
+	// 		printf("%.3ld %d has taken a fork\n", elapsed_time, philo->id);
+	// 	else if (status == EATING)
+	// 		printf("%.3ld %d is eating\n", elapsed_time, philo->id);
+	// 	else if (status == SLEEPING)
+	// 		printf("%.3ld %d is sleeping\n", elapsed_time, philo->id);
+	// 	else if (status == THINKING)
+	// 		printf("%.3ld %d is thinking\n", elapsed_time, philo->id);
+	// }
+	// else if (dead_status)
+	// {
+	// 	if (status == DIED)
+	// 		printf("%.3ld %d died\n", elapsed_time, philo->id);
+	// 	// else if (status == FULL)
+	// 	// 	printf("All philos has eaten the minimum meals\n");
+	// 	// else
+	// 	// 	printf("All philos has eaten the minimum meals\n");
+	// }
 }

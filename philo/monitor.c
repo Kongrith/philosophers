@@ -37,35 +37,22 @@ int chk_full(t_philo *philos)
 	int i;
 	int full_philo;
 
-	i = 0;
-	full_philo = 0;
 	if (philos[0].required_meals == -1)
 		return (0);
+	i = 0;
+	full_philo = 0;
 	while (i < philos[0].num_of_philo)
 	{
 		pthread_mutex_lock(philos[i].lastmeal_mutex);
 		if (philos[i].meals_eaten >= philos[i].required_meals)
 			full_philo++;
-		// if (full_philo >= philos[0].num_of_philo)
-		// {
-		// 	pthread_mutex_lock(philos[i].dead_mutex);
-		// 	*philos->is_dead = 1;
-		// 	printf("All philos has eaten the minimum meals\n");
-		// 	pthread_mutex_unlock(philos[i].dead_mutex);
-		// 	pthread_mutex_unlock(philos[i].lastmeal_mutex);
-		// 	return (1);
-		// }
 		pthread_mutex_unlock(philos[i].lastmeal_mutex);
 		i++;
 	}
 	if (full_philo >= philos[0].num_of_philo)
 	{
-		// printf("All philos has eaten the minimum meals\n");
 		pthread_mutex_lock(philos[0].dead_mutex);
-		// write_status(FULL, &philos[i], DEBUG_MODE);
-		// printf("All philos has eaten the minimum meals\n");
 		*philos->is_dead = 1;
-		// write_status(FULL, &philos[i], DEBUG_MODE);
 		printf("All philos has eaten the minimum meals\n");
 		pthread_mutex_unlock(philos[0].dead_mutex);
 		return (1);
