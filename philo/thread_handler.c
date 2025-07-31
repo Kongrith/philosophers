@@ -65,26 +65,49 @@ static int sleep_event(t_philo *philo)
 static int think_event(t_philo *philo)
 {
 	long value;
+	int dead_status;
 
-	if (stoping_criteria(philo))
+	pthread_mutex_lock(philo->dead_mutex);
+	dead_status = *philo->is_dead;
+	if (dead_status)
+	{
+		pthread_mutex_unlock(philo->dead_mutex);
 		return (-1);
+	}
+	write_status(THINKING, philo, DEBUG_MODE);
+	if (philo->num_of_philo % 2 == 0)
+	{
+		value = philo->time_to_eat - philo->time_to_sleep - 10;
+		if (value > 0)
+			precise_sleep(value);
+	}
 	else
 	{
-		write_status(THINKING, philo, DEBUG_MODE);
-		if (philo->num_of_philo % 2 == 0)
-		{
-			value = philo->time_to_eat - philo->time_to_sleep - 10;
-			if (value > 0)
-				precise_sleep(value);
-		}
-		else
-		{
-			value = (2 * philo->time_to_eat) - philo->time_to_sleep - 10;
-			if (value > 0)
-				precise_sleep(value);
-		}
-		return (0);
+		value = (2 * philo->time_to_eat) - philo->time_to_sleep - 10;
+		if (value > 0)
+			precise_sleep(value);
 	}
+	pthread_mutex_unlock(philo->dead_mutex);
+	return (0);
+	// if (stoping_criteria(philo))
+	// 	return (-1);
+	// else
+	// {
+	// 	write_status(THINKING, philo, DEBUG_MODE);
+	// 	if (philo->num_of_philo % 2 == 0)
+	// 	{
+	// 		value = philo->time_to_eat - philo->time_to_sleep - 10;
+	// 		if (value > 0)
+	// 			precise_sleep(value);
+	// 	}
+	// 	else
+	// 	{
+	// 		value = (2 * philo->time_to_eat) - philo->time_to_sleep - 10;
+	// 		if (value > 0)
+	// 			precise_sleep(value);
+	// 	}
+	// 	return (0);
+	// }
 	// if (stoping_criteria(philo))
 	// 	return (-1);
 	// return (0);
