@@ -34,7 +34,7 @@ typedef struct s_philo
 {
 	int id;
 	int meals_eaten;
-	int *is_dead;
+	int *is_finish;
 	int is_eating;
 	long start_timestamp;
 	long lastmeal_timestamp;
@@ -47,7 +47,7 @@ typedef struct s_philo
 	pthread_mutex_t *first_fork;
 	pthread_mutex_t *second_fork;
 	pthread_mutex_t *starttime_mutex;
-	pthread_mutex_t *dead_mutex;
+	pthread_mutex_t *finish_mutex;
 	pthread_mutex_t *lastmeal_mutex;
 } t_philo;
 
@@ -58,13 +58,13 @@ typedef struct s_var
 	long time_to_eat;
 	long time_to_sleep;
 	int required_meals;
-	int is_dead;
+	int is_finish;
 	t_philo *philos;
 	t_monitor *monitor;
 	time_t start_timestamp;
 	pthread_mutex_t *forks;
 	pthread_mutex_t starttime_mutex;
-	pthread_mutex_t dead_mutex;
+	pthread_mutex_t finish_mutex;
 	pthread_mutex_t lastmeal_mutex;
 } t_var;
 

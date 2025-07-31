@@ -50,9 +50,9 @@ static int manage_character(char *str, int *ptr)
 	return (sign);
 }
 
-int ft_atoi(const char *str)
+long ft_atoi(const char *str)
 {
-	int input_number;
+	long input_number;
 	int sign;
 	int index;
 
@@ -65,7 +65,10 @@ int ft_atoi(const char *str)
 		input_number = 10 * input_number + (str[index] - '0');
 		++index;
 	}
-	return (input_number * sign);
+	input_number *= sign;
+	if (input_number < INT_MIN || input_number > INT_MAX)
+		return (-4);
+	return (input_number);
 }
 
 int parse_input(t_var *var, int argc, char *argv[])

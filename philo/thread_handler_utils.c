@@ -12,14 +12,14 @@
 
 #include "philo.h"
 
-int	stoping_criteria(t_philo *philo)
+int stoping_criteria(t_philo *philo)
 {
-	pthread_mutex_lock(philo->dead_mutex);
-	if (*philo->is_dead == 1)
+	pthread_mutex_lock(philo->finish_mutex);
+	if (*philo->is_finish == 1)
 	{
-		pthread_mutex_unlock(philo->dead_mutex);
+		pthread_mutex_unlock(philo->finish_mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(philo->dead_mutex);
+	pthread_mutex_unlock(philo->finish_mutex);
 	return (0);
 }

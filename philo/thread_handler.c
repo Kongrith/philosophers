@@ -47,13 +47,13 @@ static int eat_event(t_philo *philo)
 
 static int sleep_event(t_philo *philo)
 {
-	pthread_mutex_lock(philo->dead_mutex);
-	if (*philo->is_dead)
+	pthread_mutex_lock(philo->finish_mutex);
+	if (*philo->is_finish)
 	{
-		pthread_mutex_unlock(philo->dead_mutex);
+		pthread_mutex_unlock(philo->finish_mutex);
 		return (-1);
 	}
-	pthread_mutex_unlock(philo->dead_mutex);
+	pthread_mutex_unlock(philo->finish_mutex);
 	write_status(SLEEPING, philo, DEBUG_MODE);
 	precise_sleep(philo->time_to_sleep);
 	return (0);
@@ -77,13 +77,13 @@ static int think_event(t_philo *philo)
 {
 	long value;
 
-	pthread_mutex_lock(philo->dead_mutex);
-	if (*philo->is_dead)
+	pthread_mutex_lock(philo->finish_mutex);
+	if (*philo->is_finish)
 	{
-		pthread_mutex_unlock(philo->dead_mutex);
+		pthread_mutex_unlock(philo->finish_mutex);
 		return (-1);
 	}
-	pthread_mutex_unlock(philo->dead_mutex);
+	pthread_mutex_unlock(philo->finish_mutex);
 	write_status(THINKING, philo, DEBUG_MODE);
 	if (philo->num_of_philo % 2 == 0)
 	{

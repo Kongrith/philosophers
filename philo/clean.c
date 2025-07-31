@@ -25,7 +25,7 @@ void clean(t_var *var)
 		i++;
 	}
 	pthread_mutex_destroy(&var->starttime_mutex);
-	pthread_mutex_destroy(&var->dead_mutex);
+	pthread_mutex_destroy(&var->finish_mutex);
 	pthread_mutex_destroy(&var->lastmeal_mutex);
 	if (var->forks)
 		free(var->forks);

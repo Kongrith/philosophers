@@ -23,9 +23,9 @@ int death_criteria(t_philo *philo)
 	pthread_mutex_unlock(philo->lastmeal_mutex);
 	if (lastmeal_timestamp > time_to_die && philo->is_eating == 0)
 	{
-		pthread_mutex_lock(philo->dead_mutex);
-		*philo->is_dead = 1;
-		pthread_mutex_unlock(philo->dead_mutex);
+		pthread_mutex_lock(philo->finish_mutex);
+		*philo->is_finish = 1;
+		pthread_mutex_unlock(philo->finish_mutex);
 		return (1);
 	}
 	else
@@ -51,9 +51,9 @@ int chk_full(t_philo *philos)
 	}
 	if (full_philo >= philos[0].num_of_philo)
 	{
-		pthread_mutex_lock(philos[0].dead_mutex);
-		*philos->is_dead = 1;
-		pthread_mutex_unlock(philos[0].dead_mutex);
+		pthread_mutex_lock(philos[0].finish_mutex);
+		*philos->is_finish = 1;
+		pthread_mutex_unlock(philos[0].finish_mutex);
 		write_status(FULL, &philos[0], DEBUG_MODE);
 		// printf("All philos has eaten the minimum meals\n");
 		return (1);

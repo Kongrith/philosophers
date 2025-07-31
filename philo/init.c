@@ -15,7 +15,7 @@
 static void assign_values(t_var *var, int i)
 {
 	var->philos[i].meals_eaten = 0;
-	var->philos[i].is_dead = &var->is_dead;
+	var->philos[i].is_finish = &var->is_finish;
 	var->philos[i].is_eating = 0;
 	var->philos[i].start_timestamp = current_time_msec();
 	var->philos[i].lastmeal_timestamp = current_time_msec();
@@ -25,7 +25,7 @@ static void assign_values(t_var *var, int i)
 	var->philos[i].required_meals = var->required_meals;
 	var->philos[i].num_of_philo = var->num_of_philo;
 	var->philos[i].starttime_mutex = &var->starttime_mutex;
-	var->philos[i].dead_mutex = &var->dead_mutex;
+	var->philos[i].finish_mutex = &var->finish_mutex;
 	var->philos[i].lastmeal_mutex = &var->lastmeal_mutex;
 }
 
@@ -68,14 +68,14 @@ static int init_forks(pthread_mutex_t *forks, int philo_num)
 
 int initialization(t_var *var)
 {
-	var->is_dead = 0;
+	var->is_finish = 0;
 	var->philos = malloc(sizeof(t_philo) * var->num_of_philo);
 	var->monitor = malloc(sizeof(t_monitor));
 	var->forks = malloc(sizeof(pthread_mutex_t) * var->num_of_philo);
 	if (pthread_mutex_init(&var->starttime_mutex, NULL))
 		return (error_exit(-1, "Can not initial start time mutex"));
-	if (pthread_mutex_init(&var->dead_mutex, NULL))
-		return (error_exit(-1, "Can not initial dead mutex"));
+	if (pthread_mutex_init(&var->finish_mutex, NULL))
+		return (error_exit(-1, "Can not initial finish mutex"));
 	if (pthread_mutex_init(&var->lastmeal_mutex, NULL))
 		return (error_exit(-1, "Can not initial last meal mutex"));
 	if (init_forks(var->forks, var->num_of_philo) < 0)
