@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:33:07 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/08/01 04:20:21 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:20:12 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philo
 	pthread_mutex_t	*starttime_mutex;
 	pthread_mutex_t	*finish_mutex;
 	pthread_mutex_t	*lastmeal_mutex;
+	pthread_mutex_t	*eating_mutex;
 }	t_philo;
 
 typedef struct s_var
@@ -66,6 +67,7 @@ typedef struct s_var
 	pthread_mutex_t	starttime_mutex;
 	pthread_mutex_t	finish_mutex;
 	pthread_mutex_t	lastmeal_mutex;
+	pthread_mutex_t	eating_mutex;
 }	t_var;
 
 typedef enum e_philo_status

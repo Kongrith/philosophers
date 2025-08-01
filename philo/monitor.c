@@ -6,7 +6,7 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 02:42:45 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/08/01 04:16:12 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:28:51 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 int	death_criteria(t_philo *philo)
 {
 	int		time_to_die;
+	int		is_eating;
 	long	lastmeal_timestamp;
 
 	time_to_die = philo->time_to_die;
 	pthread_mutex_lock(philo->lastmeal_mutex);
 	lastmeal_timestamp = current_time_msec() - philo->lastmeal_timestamp;
 	pthread_mutex_unlock(philo->lastmeal_mutex);
-	if (lastmeal_timestamp > time_to_die && philo->is_eating == 0)
+	pthread_mutex_lock(philo->eating_mutex);
+	is_eating = philo->is_eating;
+	pthread_mutex_unlock(philo->eating_mutex);
+	if (lastmeal_timestamp > time_to_die && is_eating == 0)
 	{
 		pthread_mutex_lock(philo->finish_mutex);
 		*philo->is_finish = 1;

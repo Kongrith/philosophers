@@ -6,7 +6,7 @@
 /*   By: toon <toon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 01:32:23 by khkomasa          #+#    #+#             */
-/*   Updated: 2025/08/01 04:24:36 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:30:35 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	assign_values(t_var *var, int i)
 	var->philos[i].starttime_mutex = &var->starttime_mutex;
 	var->philos[i].finish_mutex = &var->finish_mutex;
 	var->philos[i].lastmeal_mutex = &var->lastmeal_mutex;
+	var->philos[i].eating_mutex = &var->eating_mutex;
 }
 
 static void	init_philos(t_var *var, pthread_mutex_t *forks)
@@ -78,6 +79,8 @@ int	initialization(t_var *var)
 		return (error_exit(-1, "Can not initial finish mutex"));
 	if (pthread_mutex_init(&var->lastmeal_mutex, NULL))
 		return (error_exit(-1, "Can not initial last meal mutex"));
+	if (pthread_mutex_init(&var->eating_mutex, NULL))
+		return (error_exit(-1, "Can not initial eating mutex"));
 	if (init_forks(var->forks, var->num_of_philo) < 0)
 		return (-1);
 	init_philos(var, var->forks);

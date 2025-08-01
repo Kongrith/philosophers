@@ -6,7 +6,7 @@
 /*   By: kkomasat <kkomasat@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 21:53:19 by kkomasat          #+#    #+#             */
-/*   Updated: 2025/08/01 04:22:07 by kkomasat         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:30:02 by kkomasat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ static void	extend_eat_event(t_philo *philo)
 	pthread_mutex_lock(philo->second_fork);
 	write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
 	write_status(EATING, philo, DEBUG_MODE);
+	pthread_mutex_lock(philo->eating_mutex);
 	philo->is_eating = 1;
+	pthread_mutex_unlock(philo->eating_mutex);
 	pthread_mutex_lock(philo->lastmeal_mutex);
 	philo->lastmeal_timestamp = current_time_msec();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->lastmeal_mutex);
 	precise_sleep(philo->time_to_eat);
+	pthread_mutex_lock(philo->eating_mutex);
 	philo->is_eating = 0;
+	pthread_mutex_unlock(philo->eating_mutex);
 	pthread_mutex_unlock(philo->first_fork);
 	pthread_mutex_unlock(philo->second_fork);
 }
